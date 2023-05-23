@@ -7,7 +7,6 @@ function Home() {
   return (
     <>
     <Header/>
-    <ArticleCard />
     <Footer/>
     </>
   )
