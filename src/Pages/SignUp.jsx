@@ -241,7 +241,7 @@ const Card = () => {
         <div className="text-center mt-4 mb-8">
           <p>
             Already have an account?{" "}
-            <Link to="/login" className="text-ashforsignup font-bold">
+            <Link to="/signin" className="text-ashforsignup font-bold">
               Log In
             </Link>
           </p>
