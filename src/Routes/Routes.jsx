@@ -6,17 +6,18 @@ import Articles from '../Pages/Articles'
 import SignUp from '../Pages/SignUp'
 import SignIn from '../Pages/SignIn'
 import ViewConsultant from '../Pages/ViewConsultant'
+import Announcements from '../Pages/Announcements'
 
 function PageRoutes() {
   return (
     <Router>
         <Routes>
             <Route path="/" element={<Landing/>}/>
-            <Route path='/home' element={<Home />} />
-            <Route path='/articles' element={<Articles/>} />
+            <Route path='/home' element={<Articles/>} />
             <Route path='/signup' element={<SignUp/>}/>
             <Route path='/signin' element={<SignIn/>}/>
             <Route path='/viewconsultant' element={<ViewConsultant/>}/>
+            <Route path='/announcement' element={<Announcements/>} />
         </Routes>
     </Router>
   )
