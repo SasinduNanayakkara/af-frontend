@@ -112,9 +112,15 @@ const Card = () => {
         <h1 className="text-black font-bold text-center mt-8 text-3xl">
           Join With Consult Therapy
         </h1>
-        <form className="flex flex-wrap ml-14 mr-14 mt-8 justify-center" onSubmit={handleSubmit}>
+        <form
+          className="flex flex-wrap ml-14 mr-14 mt-8 justify-center"
+          onSubmit={handleSubmit}
+        >
           <div className="w-1/3 pr-2">
-            <label htmlFor="prefix" className="text-formLable font-semibold mb-2">
+            <label
+              htmlFor="prefix"
+              className="text-formLable font-semibold mb-2"
+            >
               Prefix
             </label>
             <select
@@ -144,7 +150,10 @@ const Card = () => {
             />
           </div>
           <div className="w-1/3 pl-2">
-            <label htmlFor="lastName" className="text-formLable font-semibold mb-2">
+            <label
+              htmlFor="lastName"
+              className="text-formLable font-semibold mb-2"
+            >
               Last Name
             </label>
             <input
@@ -156,7 +165,10 @@ const Card = () => {
             />
           </div>
           <div className="w-1/2 pr-2">
-            <label htmlFor="userType" className="text-formLable font-semibold mb-2">
+            <label
+              htmlFor="userType"
+              className="text-formLable font-semibold mb-2"
+            >
               User Type
             </label>
             <select
@@ -170,7 +182,24 @@ const Card = () => {
             </select>
           </div>
           <div className="w-1/2 pl-2">
-            <label htmlFor="password" className="text-formLable font-semibold mb-2">
+            <label
+              htmlFor="email"
+              className="text-formLable font-semibold mb-2"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
+              onBlur={validateEmail}
+            />
+          </div>
+          <div className="w-1/2 pr-2">
+            <label
+              htmlFor="password"
+              className="text-formLable font-semibold mb-2"
+            >
               Password
             </label>
             <input
@@ -181,38 +210,22 @@ const Card = () => {
               onChange={handleInputChange}
             />
           </div>
-          {formValues.userType === "Consultant" && (
-            <>
-              <div className="w-1/2 pr-2">
-                <label
-                  htmlFor="email"
-                  className="text-formLable font-semibold mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                  onBlur={validateEmail}
-                />
-              </div>
-              <div className="w-1/2 pl-2">
-                <label
-                  htmlFor="phone"
-                  className="text-formLable font-semibold mb-2"
-                >
-                  Phone
-                </label>
-                <input
-                  type="phone"
-                  id="phone"
-                  className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                  value={formValues.phone}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="w-full">
+          <div className="w-1/2 pl-2">
+            <label
+              htmlFor="phone"
+              className="text-formLable font-semibold mb-2"
+            >
+              Phone
+            </label>
+            <input
+              type="phone"
+              id="phone"
+              className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
+              value={formValues.phone}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="w-full">
                 <label
                   htmlFor="location"
                   className="text-formLable font-semibold mb-2"
@@ -222,6 +235,53 @@ const Card = () => {
                 <input
                   type="text"
                   id="location"
+                  className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
+                  value={formValues.location}
+                  onChange={handleInputChange}
+                />
+              </div>
+          {formValues.userType === "Consultant" && (
+            <>
+              <div className="w-full">
+                <label
+                  htmlFor="specialization"
+                  className="text-formLable font-semibold mb-2"
+                >
+                  Specialization
+                </label>
+                <input
+                  type="text"
+                  id="specialization"
+                  className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
+                  value={formValues.location}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="w-full">
+                <label
+                  htmlFor="skills"
+                  className="text-formLable font-semibold mb-2"
+                >
+                  Skills
+                </label>
+                <input
+                  type="text"
+                  id="skills"
+                  className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
+                  value={formValues.location}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="w-full">
+                <label
+                  htmlFor="aboutYou"
+                  className="text-formLable font-semibold mb-2"
+                >
+                  About you
+                </label>
+                <textarea
+                  type="text"
+                  id="aboutYou"
                   className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
                   value={formValues.location}
                   onChange={handleInputChange}
