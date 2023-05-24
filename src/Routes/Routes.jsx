@@ -5,6 +5,7 @@ import Landing from '../Pages/landing'
 import Articles from '../Pages/Articles'
 import SignUp from '../Pages/SignUp'
 import SignIn from '../Pages/SignIn'
+import ViewConsultant from '../Pages/ViewConsultant'
 
 function PageRoutes() {
   return (
@@ -15,6 +16,7 @@ function PageRoutes() {
             <Route path='/articles' element={<Articles/>} />
             <Route path='/signup' element={<SignUp/>}/>
             <Route path='/signin' element={<SignIn/>}/>
+            <Route path='/viewconsultant' element={<ViewConsultant/>}/>
         </Routes>
     </Router>
   )
