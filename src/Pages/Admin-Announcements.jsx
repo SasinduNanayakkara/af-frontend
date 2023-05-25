@@ -10,6 +10,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 function Announcements() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDelModalOpen, setDelModalOpen] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [selectedAnnouncementDescription, setSelectedAnnouncementDescription] =
     useState(null);
   const [selectedAnnouncementTitle, setSelectedAnnouncementTitle] =
@@ -40,12 +41,20 @@ function Announcements() {
     setDelModalOpen(true);
   };
 
+  const openEditModal = () => {
+    setEditModalOpen(true);
+  };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
   const closDeleModal = () => {
     setDelModalOpen(false);
+  };
+
+  const closeEditModal = () => {
+    setEditModalOpen(false);
   };
 
   const handleSubmit = (e) => {
@@ -292,13 +301,13 @@ function Announcements() {
             <button
               type="submit"
               className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mr-2"
-              onClick={openModal}
+              onClick={openEditModal}
             >
               Edit
             </button>
             <Modal
-              isOpen={isModalOpen}
-              onRequestClose={closeModal}
+              isOpen={isEditModalOpen}
+              onRequestClose={closeEditModal}
               style={{
                 content: {
                   height: "470px", // Set the desired height
@@ -314,7 +323,7 @@ function Announcements() {
                   <FontAwesomeIcon
                     icon={faTimes}
                     className="text-gray-500 cursor-pointer"
-                    onClick={closeModal}
+                    onClick={closeEditModal}
                   />
                 </div>
                 {/* Rest of the modal content */}
