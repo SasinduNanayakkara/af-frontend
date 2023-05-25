@@ -8,6 +8,7 @@ import SignIn from '../Pages/SignIn'
 import ViewConsultant from '../Pages/ViewConsultant'
 import Announcements from '../Pages/Announcements'
 import AdminAnnouncement from '../Pages/Admin-Announcements'
+import ConArticle from '../Pages/Con-Article'
 
 function PageRoutes() {
   return (
@@ -20,6 +21,7 @@ function PageRoutes() {
             <Route path='/viewconsultant' element={<ViewConsultant/>}/>
             <Route path='/announcement' element={<Announcements/>} />
             <Route path='/announcement-admin' element={<AdminAnnouncement/>}/>
+            <Route path='/myarticles' element={<ConArticle/>}/>
         </Routes>
     </Router>
   )
