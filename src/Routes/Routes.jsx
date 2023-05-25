@@ -5,7 +5,9 @@ import Landing from '../Pages/landing'
 import Articles from '../Pages/Articles'
 import SignUp from '../Pages/SignUp'
 import SignIn from '../Pages/SignIn'
+import ViewConsultant from '../Pages/ViewConsultant'
 import Announcements from '../Pages/Announcements'
+import AdminAnnouncement from '../Pages/Admin-Announcements'
 
 function PageRoutes() {
   return (
@@ -15,7 +17,9 @@ function PageRoutes() {
             <Route path='/home' element={<Articles/>} />
             <Route path='/signup' element={<SignUp/>}/>
             <Route path='/signin' element={<SignIn/>}/>
+            <Route path='/viewconsultant' element={<ViewConsultant/>}/>
             <Route path='/announcement' element={<Announcements/>} />
+            <Route path='/announcement-admin' element={<AdminAnnouncement/>}/>
         </Routes>
     </Router>
   )
