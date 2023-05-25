@@ -1,152 +1,142 @@
-import React, { useState } from "react";
-import Modal from "react-modal";
+import React, { useState , useEffect} from "react";
+import ViewConsultantCard from "../Components/ViewConsultantCard";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import ConsultantDetailsCard from "../Components/ConsultantDetailsCard";
 
-function Articles() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const articleData = [];
-  const [formValues, setFormValues] = useState({
-    title: "",
-    targetAudience: "",
-    content: "",
-  });
+function Consultants() {
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [
+    selectedAnnouncementSpecilization,
+    setSelectedAnnouncementSpecilization,
+  ] = useState(null);
+  const [selectedAnnouncementName, setSelectedAnnouncementName] =
+    useState(null);
+  const [selectedAnnouncementDate, setSelectedAnnouncementDate] =
+    useState(null);
+  const [selectedAnnouncementTime, setSelectedAnnouncementTime] =
+    useState(null);
+  const [selectedAnnouncementStatus, setSelectedAnnouncementStatus] =
+    useState(null);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleAnnouncementClick = (specilization, name, date, time, status) => {
+    setSelectedAnnouncementSpecilization(specilization);
+    setSelectedAnnouncementDate(date);
+    setSelectedAnnouncementTime(time);
+    setSelectedAnnouncementName(name);
+    setSelectedAnnouncementStatus(status);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const consultantData = [
+    {
+      name: "Dr.Shavidini Abhewardhana",
+      date: "05 May 2023",
+      time: "03:00:10",
+      specilization: "Emergency Medicine Specialists",
+      status: "Pending",
+    },
+    {
+      name: "Dr.Shavidini Abhewardhana",
+      date: "05 May 2023",
+      time: "03:00:10",
+      specilization: "Emergency Medicine Specialists",
+      status: "Approved",
+    },
+    {
+      name: "Dr.Shavidini Abhewardhana",
+      date: "05 May 2023",
+      time: "03:00:10",
+      specilization: "Emergency Medicine Specialists",
+      status: "Pending",
+    },
+    {
+      name: "Dr.Shavidini Abhewardhana",
+      date: "05 May 2023",
+      time: "03:00:10",
+      specilization: "Emergency Medicine Specialists",
+      status: "Pending",
+    },
+    {
+      name: "Dr.Shavidini Abhewardhana",
+      date: "05 May 2023",
+      time: "03:00:10",
+      specilization: "Emergency Medicine Specialists",
+      status: "Pending",
+    },
+  ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const filteredData = selectedStatus
+  ? consultantData.filter((item) => item.status === selectedStatus)
+  : consultantData;
 
-    // Handle form submission logic here
-    // Access form values from the `formValues` state object
-  };
+  useEffect(() => {
+    setSelectedAnnouncementSpecilization(null);
+    setSelectedAnnouncementDate(null);
+    setSelectedAnnouncementTime(null);
+    setSelectedAnnouncementName(null);
+    setSelectedAnnouncementStatus(null);
+  }, [selectedStatus]);
 
   return (
-    <div>
+    <div className="">
       <Header />
-      <div>
-        <div className="h-48 w-[100px] mt-5 bg-[#D9D9D9] ml-[500px]">
-          <div className="w-full flex justify-center">
-            <button
-              type="submit"
-              className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-              onClick={openModal} // Open the modal when the button is clicked
+      <div className="flex flex-row ">
+        <div className="w-1/3">
+          <div className="w-full flex justify-center ml-8 mt-4">
+            <select
+              id="status"
+              className="border-2 border-[#9B9B9B] px-2 py-2 mb-4 mt-1 w-full bg-white mr-8 rounded-lg font-semibold text-[#CACACA]"
+              // defaultValue=""
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
             >
-              Add Announcement
-            </button>
+              <option value="">
+                All
+              </option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Aprroved</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col ml-8 overflow-y-scroll max-h-screen">
+            {filteredData.map((item, index) => (
+              <div>
+                <ViewConsultantCard
+                  name={item.name}
+                  date={item.date}
+                  time={item.time}
+                  specilization={item.specilization}
+                  status={item.status}
+                  onClick={() => {
+                    handleAnnouncementClick(
+                      item.specilization,
+                      item.name,
+                      item.date,
+                      item.time,
+                      item.status
+                    );
+                  }}
+                  isVisible={!selectedStatus || item.status === selectedStatus}
+                />
+                <div className="h-[1px] bg-[#D9D9D9] my-1 mx-2"></div>
+              </div>
+            ))}
           </div>
         </div>
-
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={closeModal}
-          style={{
-            content: {
-              height: "470px", // Set the desired height
-              width: "30rem", // Set the desired width
-              top: "50%", // Center vertically
-              left: "50%", // Center horizontally
-              transform: "translate(-50%, -50%)", // Center using translate
-            },
-          }}
-        >
-          <div className="w-2/2 ml-10">
-            <div className="flex justify-end">
-              <FontAwesomeIcon
-                icon={faTimes}
-                className="text-gray-500 cursor-pointer"
-                onClick={closeModal}
-              />
-            </div>
-            {/* Rest of the modal content */}
-          </div>
-          <div className="w-2/2 ml-10 mr-10">
-            <h2 className="text-black font-bold text-center text-3xl">
-              Add Announcement
-            </h2>
-            <div className="flex justify-center">
-              <div className="w-44 h-[3px] bg-[#F5A624] mt-3 mb-3"></div>
-            </div>
-            <form onSubmit={handleSubmit}>
-              <div className="flex justify-center">
-                <div className="w-full">
-                  <label
-                    htmlFor="title"
-                    className="text-formLable font-semibold mb-2"
-                  >
-                    Title
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                    value={formValues.title}
-                    //   onChange={handleInputChange}
-                  />
-                </div>
-              </div>{" "}
-              <div className="flex justify-center">
-                <div className="w-full">
-                  <label
-                    htmlFor="target"
-                    className="text-formLable font-semibold mb-2"
-                  >
-                    Target Audience
-                  </label>
-                  <select
-                    id="target"
-                    className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                    value={formValues.targetAudience}
-                    //   onChange={handleInputChange}
-                  >
-                    <option value="Client">Client</option>
-                    <option value="Consultant">Consultant</option>
-                  </select>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="w-full">
-                  <label
-                    htmlFor="content"
-                    className="text-formLable font-semibold mb-2"
-                  >
-                    Content
-                  </label>
-                  <textarea
-                    type="text"
-                    id="content"
-                    className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                    value={formValues.content}
-                    //   onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="w-full flex justify-center">
-                  <button
-                    type="submit"
-                    className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
-                  >
-                    Add
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </Modal>
+        <div className="h-screen w-[1px] mt-5 bg-[#D9D9D9] ml-5"></div>
+        <div className="w-2/3">
+          <ConsultantDetailsCard
+            specilization={selectedAnnouncementSpecilization}
+            title={selectedAnnouncementName}
+            date={selectedAnnouncementDate}
+            time={selectedAnnouncementTime}
+            status={selectedAnnouncementStatus}
+          />
+        </div>
       </div>
-
       <Footer />
     </div>
   );
 }
 
-export default Articles;
+export default Consultants;
