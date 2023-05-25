@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import { render } from "@testing-library/react";
+import React from "react";
 
 function ViewConsultantCard({
   name,
   date,
   time,
-  specilization,
-  status, 
   onClick,
+  specilization,
+  status,
 }) {
-  const [isButtonVisible, setButtonVisible] = useState(false);
   const handleClick = () => {
     onClick();
-    setButtonVisible(!isButtonVisible);
   };
 
   let statusClass = "";
@@ -48,14 +47,9 @@ function ViewConsultantCard({
             {status}
           </p>
         </div>
-        <div>
-          {isButtonVisible && (
-            <button type="submit" className="bg-black text-white">
-              AAA
-            </button>
-          )}
-        </div>
+        
       </div>
+      
     </div>
   );
 }
