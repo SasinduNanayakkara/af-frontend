@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 function ViewConsultantCard({
   name,
   date,
   time,
-  onClick,
   specilization,
-  status,
+  status, 
+  onClick,
 }) {
+  const [isButtonVisible, setButtonVisible] = useState(false);
   const handleClick = () => {
     onClick();
+    setButtonVisible(!isButtonVisible);
   };
 
   let statusClass = "";
@@ -21,9 +23,12 @@ function ViewConsultantCard({
   } else if (status === "Approved") {
     statusClass = "text-white";
     statusBackgroundClass = "bg-[#F5A624]";
-  } else if (status === "completed") {
+  } else if (status === "Rejected") {
     statusClass = "text-white";
-    statusBackgroundClass = "bg-blue-500";
+    statusBackgroundClass = "bg-[#FF1F00]";
+  } else if (status === "Removed") {
+    statusClass = "text-white";
+    statusBackgroundClass = "bg-[#FD7373]";
   }
 
   return (
@@ -42,6 +47,13 @@ function ViewConsultantCard({
           >
             {status}
           </p>
+        </div>
+        <div>
+          {isButtonVisible && (
+            <button type="submit" className="bg-black text-white">
+              AAA
+            </button>
+          )}
         </div>
       </div>
     </div>
