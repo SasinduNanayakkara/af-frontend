@@ -42,7 +42,6 @@ function Announcements() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Handle form submission logic here
     // Access form values from the `formValues` state object
   };
 
