@@ -4,6 +4,8 @@ import LandingImg from "../Assets/Landing-home.svg";
 import LogoLightPng from "../Assets/LogoLanding.svg";
 import image from "../Assets/Pages-Vectors/signIn.svg";
 import { Link } from "react-router-dom";
+import { API_URL } from "../App";
+import axios from "axios";
 
 const Header = () => {
   return (
@@ -46,22 +48,25 @@ const Header = () => {
 const Card = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [userType, setUserType] = useState("Client");
-  const [formValues, setFormValues] = useState({
-    userName: "",
-    password: "",
-  });
+  const [password, setPassword] = useState("");
 
-  const handleInputChange = (e) => {
-    console.log("jj");
-    setFormValues({
-      ...formValues,
-      [e.target.id]: e.target.value,
-    });
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
+      });
+      console.log(response);
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.data.access_token);
+        localStorage.setItem("user", response.data.data.user.isClient);
+        localStorage.setItem("role", response.data.data.user.role);
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
 
     // Handle form submission logic here
     // Access form values from the `formValues` state object
@@ -84,7 +89,6 @@ const Card = () => {
         </h1>
         <form
           className="flex flex-wrap ml-20 mr-20 mt-8 justify-center"
-          onSubmit={handleSubmit}
         >
           <div className="w-full">
             <label
@@ -98,7 +102,7 @@ const Card = () => {
               id="username"
               className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
               //   value={formValues.userName}
-              onChange={handleInputChange}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -114,7 +118,7 @@ const Card = () => {
               id="password"
               className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
               //   value={formValues.password}
-              onChange={handleInputChange}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -126,15 +130,15 @@ const Card = () => {
           </p>
         </div>
 
+        </form>
           <div className="w-full flex justify-center mb-4">
             <button
-              type="submit"
-              className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+            onClick={() => handleSubmit()}
+              className="bg-black hover:bg-blue-700 text-white mx-14 font-bold py-2 px-4 rounded w-full"
             >
               SignIn
             </button>
           </div>
-        </form>
         <div className="text-center mt-4 mb-8">
           <p>
             Don't have an account?{" "}
