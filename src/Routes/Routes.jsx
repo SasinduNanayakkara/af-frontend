@@ -1,6 +1,9 @@
 import React from 'react'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
+// Private Route Handler import
+import { ConsultantPrivateRoute, AdminPrivateRoute, ClientPrivateRoute } from '../Auth/privateRoute'
+
 // Common Components
 import Landing from '../Pages/landing'
 import Home from '../Pages/common/Home'
@@ -30,12 +33,28 @@ function PageRoutes() {
             <Route path="/" element={<Landing/>}/>
             <Route path='/signup' element={<SignUp/>}/>
             <Route path='/signin' element={<SignIn/>}/>
+            
 
             {/* Consultant routes */}
-            <Route path='/consultant/home' element={<Home/>} />
-            <Route path='/consultant/articles' element={<ConsultantArticles/>} />
-            <Route path='/consultant/profile' element={<ConsultantProfile/>} />
-            <Route path='/consultant/chat' element={<ConsultantChat/>} />
+            <Route path='/consultant/home' element={
+            <ConsultantPrivateRoute>
+              <Home/>
+            </ConsultantPrivateRoute>} />
+
+            <Route path='/consultant/articles' element={
+            <ConsultantPrivateRoute>
+              <ConsultantArticles/>
+            </ConsultantPrivateRoute>} />
+
+            <Route path='/consultant/profile' element={
+            <ConsultantPrivateRoute>
+              <ConsultantProfile/>
+            </ConsultantPrivateRoute>} />
+
+            <Route path='/consultant/chat' element={
+            <ConsultantPrivateRoute>
+              <ConsultantChat/>
+            </ConsultantPrivateRoute>} />
 
 
 
