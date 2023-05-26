@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import AnnouncementCard from "../Components/AnnouncementCard";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import AnnouncementDetailsCard from "../Components/AnnouncementDetailsCard";
+import axios from "axios";
 
 function Announcements() {
   const [selectedAnnouncementDescription, setSelectedAnnouncementDescription] = useState(null);
     const [selectedAnnouncementTitle, setSelectedAnnouncementTitle] = useState(null);
     const [selectedAnnouncementDate, setSelectedAnnouncementDate] = useState(null);
     const [selectedAnnouncementTime, setSelectedAnnouncementTime] = useState(null);
+    const [announcementData, setAnnouncementData] = useState([]);
 
   const handleAnnouncementClick = (description, title, date, time) => {
     setSelectedAnnouncementDescription(description);
@@ -17,91 +19,43 @@ function Announcements() {
     setSelectedAnnouncementTitle(title);
   };
 
-  const announcementData = [
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2023",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 June 2023",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 August 2023",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2024",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2013",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-        title:
-          "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-        date: "05 May 2013",
-        time: "03:00:10",
-        description:
-          "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-      },{
-        title:
-          "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-        date: "05 May 2013",
-        time: "03:00:10",
-        description:
-          "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-      },{
-        title:
-          "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-        date: "05 May 2013",
-        time: "03:00:10",
-        description:
-          "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-      },{
-        title:
-          "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-        date: "05 May 2013",
-        time: "03:00:10",
-        description:
-          "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-      },{
-        title:
-          "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-        date: "05 May 2013",
-        time: "03:00:10",
-        description:
-          "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-      },{
-        title:
-          "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-        date: "05 May 2013",
-        time: "03:00:10",
-        description:
-          "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-      },
-  ];
+  const role = "consultant"
+
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await axios.get(
+        "https://af-backend.azurewebsites.net/api/announcement/"
+      );
+      const data = response.data.data;
+      //map data so that only items with "all" or string assinged to role is in the field target
+      const filteredData = data.filter((item) => item.target === role || item.target === "all")
+
+      // Update the announcementData state with the fetched data
+      setAnnouncementData(filteredData);
+      console.log(data);
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAnnouncements();
+  }, []);
+
+  const formatDateTime = (dateTimeString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    const dateTime = new Date(dateTimeString);
+    return dateTime.toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="">
       <Header />
@@ -112,9 +66,9 @@ function Announcements() {
               <div>
                 <AnnouncementCard
                   title={item.title}
-                  date={item.date}
+                  date={formatDateTime(item.createdAt)}
                   time={item.time}
-                  onClick={() => {handleAnnouncementClick(item.description, item.title, item.date, item.time)}}
+                  onClick={() => {handleAnnouncementClick(item.content, item.title, item.date, item.time)}}
                 />
                 <div className="h-[1px] bg-[#D9D9D9] my-1 mx-2"></div>
               </div>

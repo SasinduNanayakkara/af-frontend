@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import ArticleCard from "../Components/ArticleCard";
+import { useNavigate } from "react-router-dom";
 
 function Articles() {
   const articleData = [
@@ -14,6 +15,7 @@ function Articles() {
       rating: 4,
       profilePic: "",
       articlePic: "",
+      article: "Consulting is defined as the practise of providing a third party with expertise on a matter in exchange for a fee. The service can involve either advisory or implementation services. For the consultant, taking an independent and unbiased stance on an issue is central to their role. A consultant can, in principle, service any sector. Over the past decades, the term has become synonymous with business advisory – which focuses mostly on business strategy, management, organisation, operational processes and technology. The history of the consulting industry traces back to the late nineteenth century, with the founding of the world’s first modern consulting organisations, also known as business advisory firms. In the early days of the consulting industry (starting in the US and later crossing over to Europe and the rest of the world) the first consultancies focused their advisory services mainly on solving technical and financial concerns. Today, over 300,000 consulting firms in the UK alone – of which the majority are sole proprietorships – offer all sorts of different services, spanning across countless fields, disciplines and sectors."
     },
     {
       author: "Susith Rupasinghe",
@@ -46,6 +48,9 @@ function Articles() {
       articlePic: "",
     },
   ];
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <Header />
@@ -62,6 +67,20 @@ function Articles() {
               designation={article.designation}
               description={article.description}
               rating={article.rating}
+              onClick={() => {
+                navigate("/article", {
+                  state: {
+                    profilePic: article.profilePic,
+                    author: article.author,
+                    designation: article.designation,
+                    title: article.title,
+                    description: article.description,
+                    rating: article.rating,
+                    articleImage: article.articlePic,
+                    article: article.article,
+                  },
+                });
+              }}
             />
           ))}
         </div>

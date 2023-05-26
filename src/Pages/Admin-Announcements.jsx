@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import AnnouncementCard from "../Components/AnnouncementCard";
 import Header from "../Components/Header";
@@ -6,8 +6,10 @@ import Footer from "../Components/Footer";
 import Adminannouncement from "../Components/Admin-Announcement";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function Announcements() {
+  const [announcementData, setAnnouncementData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDelModalOpen, setDelModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -17,14 +19,28 @@ function Announcements() {
     useState(null);
   const [selectedAnnouncementDate, setSelectedAnnouncementDate] =
     useState(null);
-  const [selectedAnnouncementTime, setSelectedAnnouncementTime] =
+  const [selectedAnnouncementIndex, setSelectedAnnouncementIndex] =
     useState(null);
 
-  const handleAnnouncementClick = (description, title, date, time) => {
+  const handleAnnouncementClick = (description, title, date, index) => {
     setSelectedAnnouncementDescription(description);
     setSelectedAnnouncementDate(date);
-    setSelectedAnnouncementTime(time);
     setSelectedAnnouncementTitle(title);
+    setSelectedAnnouncementIndex(index);
+  };
+
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await axios.get(
+        "https://af-backend.azurewebsites.net/api/announcement/"
+      );
+      const data = response.data.data;
+      // Update the announcementData state with the fetched data
+      setAnnouncementData(data);
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
   };
 
   const [formValues, setFormValues] = useState({
@@ -32,6 +48,10 @@ function Announcements() {
     targetAudience: "",
     content: "",
   });
+
+  useEffect(() => {
+    fetchAnnouncements();
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -57,106 +77,42 @@ function Announcements() {
     setEditModalOpen(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Access form values from the `formValues` state object
+    try {
+      const response = await axios.post(
+        "https://af-backend.azurewebsites.net/api/announcement/",
+        formValues
+      );
+      // Handle successful submission, e.g., show a success message
+      console.log("Announcement submitted successfully");
+      // Refresh the announcement data
+      fetchAnnouncements();
+      // Close the modal
+      closeModal();
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
   };
 
-  const confirmPass = () => {
-    
-  }
+  // Function to format the date and time string
+  const formatDateTime = (dateTimeString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    const dateTime = new Date(dateTimeString);
+    return dateTime.toLocaleDateString(undefined, options);
+  };
+  
+  const confirmPass = () => {};
 
-  const announcementData = [
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2023",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 June 2023",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 August 2023",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2024",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2013",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2013",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2013",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2013",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2013",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2013",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-    {
-      title:
-        "Scheduled maintenance of IT systems is an almost unavoidable part of life.",
-      date: "05 May 2013",
-      time: "03:00:10",
-      description:
-        "We would like to inform you that we have scheduled a maintenance period for our IT systems to ensure that we continue to provide you with the best possible service. During this time, there may be some disruptions to our services, but we will do everything we can to keep these to a minimum.",
-    },
-  ];
   return (
     <div className="">
       <Header />
@@ -164,19 +120,19 @@ function Announcements() {
         <div className="w-1/3">
           <div className="flex flex-col ml-8 overflow-y-scroll max-h-screen">
             {announcementData.map((item, index) => (
-              <div>
+              <div key={index}>
                 <AnnouncementCard
                   title={item.title}
-                  date={item.date}
-                  time={item.time}
+                  date={formatDateTime(item.createdAt)} // You can format the date using a library like Moment.js if needed
                   onClick={() => {
                     handleAnnouncementClick(
-                      item.description,
+                      item.content,
                       item.title,
-                      item.date,
-                      item.time
+                      item.createdAt,
+                      index
                     );
                   }}
+                  isSelected={index === selectedAnnouncementIndex}
                 />
                 <div className="h-[1px] bg-[#D9D9D9] my-1 mx-2"></div>
               </div>
@@ -295,9 +251,7 @@ function Announcements() {
             description={selectedAnnouncementDescription}
             title={selectedAnnouncementTitle}
             date={selectedAnnouncementDate}
-            time={selectedAnnouncementTime}
           />
-          
         </div>
       </div>
       <Footer />
