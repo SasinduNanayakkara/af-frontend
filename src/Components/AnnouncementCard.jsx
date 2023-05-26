@@ -10,7 +10,7 @@ function AnnouncementCard({title, date, time, onClick, isSelected }) {
             <h3 className='font-bold'>
             {title}
             </h3>
-            <h5 className='text-[#8B8B8B]'>{date} | {time}</h5>
+            <h5 className='text-[#8B8B8B]'>{date}</h5>
         </div>
     </div>
   )
