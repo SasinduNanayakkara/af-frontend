@@ -11,9 +11,9 @@ function AnnouncementDetailsCard({description, title, date, time}) {
         <h1 className='font-bold text-xl mt-9'>
         {title}
         </h1>
-        <div className="h-[2px] w-full bg-[#D1D1D1] my-2"></div>
+        {description ? (<div className="h-[2px] w-full bg-[#D1D1D1] my-2"></div>) : <div></div>}
     </div>
-        <h5 className='text-[#8B8B8B] ml-9'>{date} | {time}</h5>
+        {description ? (<h5 className='text-[#8B8B8B] ml-9'>{date} | {time}</h5>) : <div></div>}
         <p className='mt-6 mx-9 text-justify'>
         {description}
         </p>
