@@ -57,7 +57,7 @@ function Announcements() {
     title: "",
     target: "",
     content: "",
-    date:"",
+    date: "",
   });
 
   useEffect(() => {
@@ -75,12 +75,18 @@ function Announcements() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Add the createdAt field to the formValues object
+    const newAnnouncement = {
+      ...formValues,
+      createdAt: new Date().toISOString(), // Set createdAt to the current date and time
+    };
+
     try {
       const response = await axios.post(
         "https://af-backend.azurewebsites.net/api/announcement/",
-        formValues
+        newAnnouncement
       );
-      // Handle successful submission, e.g., show a success message
+      // Handle successful submission
       console.log("Announcement submitted successfully");
       // Refresh the announcement data
       fetchAnnouncements();
@@ -185,7 +191,12 @@ function Announcements() {
                         id="title"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
                         value={formValues.title}
-                        //   onChange={handleInputChange}
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            title: e.target.value,
+                          })
+                        }
                       />
                     </div>
                   </div>{" "}
@@ -200,8 +211,13 @@ function Announcements() {
                       <select
                         id="target"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
-                        value={formValues.targetAudience}
-                        //   onChange={handleInputChange}
+                        value={formValues.target}
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            target: e.target.value,
+                          })
+                        }
                       >
                         <option value="Client">Client</option>
                         <option value="Consultant">Consultant</option>
@@ -221,7 +237,12 @@ function Announcements() {
                         id="content"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
                         value={formValues.content}
-                        //   onChange={handleInputChange}
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            content: e.target.value,
+                          })
+                        }
                       />
                     </div>
                   </div>
