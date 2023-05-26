@@ -4,6 +4,9 @@ import LandingImg from "../Assets/Landing-home.svg";
 import LogoLightPng from "../Assets/LogoLanding.svg";
 import image from "../Assets/Pages-Vectors/signUp.svg";
 import { Link } from "react-router-dom";
+import { set } from "lodash";
+import axios from "axios";
+import { API_URL } from "../App";
 
 const Header = () => {
   return (
@@ -47,15 +50,15 @@ const Card = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [userType, setUserType] = useState("Client");
-  const [formValues, setFormValues] = useState({
-    prefix: "Mr.",
-    firstName: "",
-    lastName: "",
-    userType: "Client",
-    email: "",
-    password: "",
-    phone: "",
-  });
+  const [prefix, setPrefix] = useState("Mr");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [location, setLocation] = useState("");
+  const [specialization, setSpecialization] = useState("");
+  const [skills, setSkills] = useState("");
+  const [description, setDescription] = useState("");
 
   const validateEmail = () => {
     const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -69,27 +72,63 @@ const Card = () => {
     return true;
   };
 
-  const handleUserTypeChange = (e) => {
-    setUserType(e.target.value);
-  };
-
-  const handleInputChange = (e) => {
-    console.log("jj");
-    setFormValues({
-      ...formValues,
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     if (validateEmail()) {
-      // Proceed with form submission
+      if (userType === 'Client') {
+        try {
+          const response = await axios.post(`${API_URL}/client`, {
+            firstName,
+            lastName,
+            email,
+            password,
+            phone,
+            location,
+            prefix,   
+          })
+          console.log("response is: ", response);
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
+      else {
+        try {
+          const response = await axios.post(`${API_URL}/consultant`, {
+            firstName,
+            lastName,
+            specialization,
+            email,
+            password,
+            phone,
+            location,
+            skills,
+            description: {
+              blocks: [
+                {
+                  key: "2n86t",
+                  text: description,
+                  type: "unstyled",
+                  depth: 0,
+                  inlineStyleRanges: [],
+                  entityRanges: [],
+                  data: {},
+                }
+              ],
+              entityMap: {},
+            },
+            prefix,
+          });
+          console.log("response is: ", response);
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
     }
-    // Handle form submission logic here
-    // Access form values from the `formValues` state object
-  };
+    else {
+      console.log("Invalid email address");
+    }
+  }
 
   return (
     <div className="flex mb-10">
@@ -114,7 +153,6 @@ const Card = () => {
         </h1>
         <form
           className="flex flex-wrap ml-14 mr-14 mt-8 justify-center"
-          onSubmit={handleSubmit}
         >
           <div className="w-1/3 pr-2">
             <label
@@ -126,12 +164,11 @@ const Card = () => {
             <select
               id="prefix"
               className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-              value={formValues.prefix}
-              onChange={handleInputChange}
+              onChange={(e) => setPrefix(e.target.value)}
             >
-              <option value="Mr.">Mr.</option>
-              <option value="Mrs.">Mrs.</option>
-              <option value="Ms.">Ms.</option>
+              <option value="Mr">Mr</option>
+              <option value="Mrs">Mrs</option>
+              <option value="Ms">Ms</option>
             </select>
           </div>
           <div className="w-1/3 pl-2 pr-2 ">
@@ -145,8 +182,7 @@ const Card = () => {
               type="text"
               id="firstName"
               className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-              value={formValues.firstName}
-              onChange={handleInputChange}
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
           <div className="w-1/3 pl-2">
@@ -160,8 +196,7 @@ const Card = () => {
               type="text"
               id="lastName"
               className="border border-formLable rounded px-3 py-2 mb-4 mt-1 w-full bg-ash"
-              value={formValues.lastName}
-              onChange={handleInputChange}
+              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
           <div className="w-1/2 pr-2">
@@ -174,8 +209,7 @@ const Card = () => {
             <select
               id="userType"
               className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-              value={formValues.userType}
-              onChange={handleInputChange}
+              onChange={(e) => setUserType(e.target.value)}
             >
               <option value="Client">Client</option>
               <option value="Consultant">Consultant</option>
@@ -193,6 +227,7 @@ const Card = () => {
               id="email"
               className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
               onBlur={validateEmail}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="w-1/2 pr-2">
@@ -206,8 +241,7 @@ const Card = () => {
               type="password"
               id="password"
               className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-              value={formValues.password}
-              onChange={handleInputChange}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="w-1/2 pl-2">
@@ -221,8 +255,7 @@ const Card = () => {
               type="phone"
               id="phone"
               className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-              value={formValues.phone}
-              onChange={handleInputChange}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </div>
           <div className="w-full">
@@ -236,11 +269,10 @@ const Card = () => {
                   type="text"
                   id="location"
                   className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                  value={formValues.location}
-                  onChange={handleInputChange}
+                  onChange={(e) => setLocation(e.target.value)}
                 />
               </div>
-          {formValues.userType === "Consultant" && (
+          {userType === "Consultant" && (
             <>
               <div className="w-full">
                 <label
@@ -253,8 +285,7 @@ const Card = () => {
                   type="text"
                   id="specialization"
                   className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                  value={formValues.location}
-                  onChange={handleInputChange}
+                  onChange={(e) => setSpecialization(e.target.value)}
                 />
               </div>
               <div className="w-full">
@@ -268,36 +299,34 @@ const Card = () => {
                   type="text"
                   id="skills"
                   className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                  value={formValues.location}
-                  onChange={handleInputChange}
+                  onChange={(e)=> setSkills(e.target.value)}
                 />
               </div>
               <div className="w-full">
                 <label
-                  htmlFor="aboutYou"
+                  htmlFor="Description"
                   className="text-formLable font-semibold mb-2"
                 >
                   About you
                 </label>
                 <textarea
                   type="text"
-                  id="aboutYou"
+                  id="Description"
                   className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-ash"
-                  value={formValues.location}
-                  onChange={handleInputChange}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
             </>
           )}
+        </form>
           <div className="w-full flex justify-center">
             <button
-              type="submit"
-              className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+              onClick={() => handleSubmit()}
+              className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 mx-14 rounded w-full"
             >
               Sign Up
             </button>
           </div>
-        </form>
         <div className="text-center mt-4 mb-8">
           <p>
             Already have an account?{" "}
