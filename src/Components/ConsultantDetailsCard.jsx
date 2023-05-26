@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function ConsultantDetailsCard({
-  name,
+  fname,
+  lname,
   onClick,
   specilization,
   status,
@@ -89,7 +90,7 @@ function ConsultantDetailsCard({
           </div>
 
           <div className="flex flex-col">
-            <h2 className="font-bold mt-10 ml-8 text-xl mb-3">{name}</h2>
+            <h2 className="font-bold mt-10 ml-8 text-xl mb-3">{fname}{" "}{lname}</h2>
             <h6 className="text-[18px] ml-8 mb-3 text-[#858585] font-semibold">
               {specilization}
             </h6>
