@@ -1,16 +1,16 @@
 import React from 'react'
 
-function AnnouncementCard({title, date, time, onClick}) {
+function AnnouncementCard({title, date, onClick, isSelected }) {
     const handleClick = () => {
         onClick();
     }
   return (
-    <div className='px-3 my-3' onClick={handleClick}>
+    <div className={`${ isSelected ? "bg-[#dfdede] rounded-lg pt-2 pb-2 pl-2 w-[26rem]" : ""} hover:bg-[#dfdede] cursor-pointer`} onClick={handleClick}>
         <div className=''>
             <h3 className='font-bold'>
             {title}
             </h3>
-            <h5 className='text-[#8B8B8B]'>{date} | {time}</h5>
+            <h5 className='text-[#8B8B8B]'>{date}</h5>
         </div>
     </div>
   )

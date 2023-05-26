@@ -21,6 +21,7 @@ function Consultants() {
   const [selectedConsultantEmail, setSelectedConsultantEmail] = useState(null);
   const [selectedConsultantPhone, setSelectedConsultantPhone] = useState(null);
   const [selectedConsultantSkill, setSelectedConsultantSkill] = useState(null);
+  const [selectedConsultantIndex, setSelectedConsultantIndex] = useState(null);
 
   const handleConsultantClick = (
     name,
@@ -32,7 +33,8 @@ function Consultants() {
     aboutme,
     email,
     phone,
-    skills
+    skills,
+    index
   ) => {
     setSelectedConsultantName(name);
     setSelectedConsultantDate(date);
@@ -44,6 +46,7 @@ function Consultants() {
     setSelectedConsultantEmail(email);
     setSelectedConsultantPhone(phone);
     setSelectedConsultantSkill(skills);
+    setSelectedConsultantIndex(index);
   };
 
   const consultantData = [
@@ -211,9 +214,11 @@ function Consultants() {
                       item.aboutme,
                       item.emial,
                       item.phone,
-                      item.skills
+                      item.skills,
+                      index
                     );
                   }}
+                  isSelected={selectedConsultantIndex === index}
                   isVisible={!selectedStatus || item.status === selectedStatus}
                 />
                 <div className="h-[1px] bg-[#D9D9D9] my-1 mx-2"></div>

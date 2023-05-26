@@ -47,6 +47,20 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
     // Access form values from the `formValues` state object
   };
 
+    // Function to format the date and time string
+    const formatDateTime = (dateTimeString) => {
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      };
+      const dateTime = new Date(dateTimeString);
+      return dateTime.toLocaleDateString(undefined, options);
+    };
+
   const confirmPass = () => {
     
   }
@@ -72,7 +86,7 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
         <div className="h-[2px] w-full bg-[#D1D1D1] my-2"></div>
       </div>
       <h5 className="text-[#8B8B8B] ml-9">
-        {date} | {time}
+      {formatDateTime(date)}
       </h5>
       <p className="mt-6 mx-9 text-justify">{description}</p> 
       <div className="w-28 flex justify-end mt-5 ml-[850px]">
