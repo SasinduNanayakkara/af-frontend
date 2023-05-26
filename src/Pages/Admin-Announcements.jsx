@@ -11,21 +11,31 @@ import axios from "axios";
 function Announcements() {
   const [announcementData, setAnnouncementData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDelModalOpen, setDelModalOpen] = useState(false);
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [selectedAnnouncementid, setSelectedAnnouncementId] = useState(null);
   const [selectedAnnouncementDescription, setSelectedAnnouncementDescription] =
     useState(null);
   const [selectedAnnouncementTitle, setSelectedAnnouncementTitle] =
     useState(null);
   const [selectedAnnouncementDate, setSelectedAnnouncementDate] =
     useState(null);
+  const [selectedAnnouncementTarget, setSelectedAnnouncementTarget] =
+    useState(null);
   const [selectedAnnouncementIndex, setSelectedAnnouncementIndex] =
     useState(null);
 
-  const handleAnnouncementClick = (description, title, date, index) => {
+  const handleAnnouncementClick = (
+    id,
+    description,
+    title,
+    date,
+    target,
+    index
+  ) => {
+    setSelectedAnnouncementId(id);
     setSelectedAnnouncementDescription(description);
     setSelectedAnnouncementDate(date);
     setSelectedAnnouncementTitle(title);
+    setSelectedAnnouncementTarget(target);
     setSelectedAnnouncementIndex(index);
   };
 
@@ -45,8 +55,9 @@ function Announcements() {
 
   const [formValues, setFormValues] = useState({
     title: "",
-    targetAudience: "",
+    target: "",
     content: "",
+    date: "",
   });
 
   useEffect(() => {
@@ -57,35 +68,25 @@ function Announcements() {
     setIsModalOpen(true);
   };
 
-  const openDelModal = () => {
-    setDelModalOpen(true);
-  };
-
-  const openEditModal = () => {
-    setEditModalOpen(true);
-  };
-
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const closDeleModal = () => {
-    setDelModalOpen(false);
-  };
-
-  const closeEditModal = () => {
-    setEditModalOpen(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Add the createdAt field to the formValues object
+    const newAnnouncement = {
+      ...formValues,
+      createdAt: new Date().toISOString(), // Set createdAt to the current date and time
+    };
+
     try {
       const response = await axios.post(
         "https://af-backend.azurewebsites.net/api/announcement/",
-        formValues
+        newAnnouncement
       );
-      // Handle successful submission, e.g., show a success message
+      // Handle successful submission
       console.log("Announcement submitted successfully");
       // Refresh the announcement data
       fetchAnnouncements();
@@ -110,8 +111,6 @@ function Announcements() {
     const dateTime = new Date(dateTimeString);
     return dateTime.toLocaleDateString(undefined, options);
   };
-  
-  const confirmPass = () => {};
 
   return (
     <div className="">
@@ -122,10 +121,12 @@ function Announcements() {
             {announcementData.map((item, index) => (
               <div key={index}>
                 <AnnouncementCard
+                  id={item._id}
                   title={item.title}
-                  date={formatDateTime(item.createdAt)} // You can format the date using a library like Moment.js if needed
+                  date={formatDateTime(item.createdAt)}
                   onClick={() => {
                     handleAnnouncementClick(
+                      item._id,
                       item.content,
                       item.title,
                       item.createdAt,
@@ -190,7 +191,12 @@ function Announcements() {
                         id="title"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
                         value={formValues.title}
-                        //   onChange={handleInputChange}
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            title: e.target.value,
+                          })
+                        }
                       />
                     </div>
                   </div>{" "}
@@ -205,8 +211,13 @@ function Announcements() {
                       <select
                         id="target"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
-                        value={formValues.targetAudience}
-                        //   onChange={handleInputChange}
+                        value={formValues.target}
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            target: e.target.value,
+                          })
+                        }
                       >
                         <option value="Client">Client</option>
                         <option value="Consultant">Consultant</option>
@@ -226,7 +237,12 @@ function Announcements() {
                         id="content"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
                         value={formValues.content}
-                        //   onChange={handleInputChange}
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            content: e.target.value,
+                          })
+                        }
                       />
                     </div>
                   </div>
@@ -248,8 +264,10 @@ function Announcements() {
         <div className="h-screen w-[1px] mt-5 bg-[#D9D9D9] ml-5"></div>
         <div className="w-2/3">
           <Adminannouncement
+            id={selectedAnnouncementid}
             description={selectedAnnouncementDescription}
             title={selectedAnnouncementTitle}
+            target={selectedAnnouncementTarget}
             date={selectedAnnouncementDate}
           />
         </div>
