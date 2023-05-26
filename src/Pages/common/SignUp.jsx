@@ -6,9 +6,13 @@ import image from "../../Assets/Pages-Vectors/signUp.svg";
 import { Link } from "react-router-dom";
 import { set } from "lodash";
 import axios from "axios";
-import { API_URL } from "../App";
+import { API_URL } from "../../App";
+import { useNavigate } from "react-router-dom";
+
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="pt-8 px-8">
       <div className="justify-between flex flex-row px-12'">
@@ -31,12 +35,12 @@ const Header = () => {
         </div>
         <div className="flex-row flex">
           <div className="mr-4">
-            <button className="transition hover:-translate-y hover:scale-105 duration-200 ease-in-out border bg-black text-white border border-black rounded-md h-fit w-fit border-2 px-8 py-1">
+            <button onClick={()=> navigate("/signin")} className="transition hover:-translate-y hover:scale-105 duration-200 ease-in-out border bg-black text-white border border-black rounded-md h-fit w-fit border-2 px-8 py-1">
               SignIn
             </button>
           </div>
           <div className="mr-4">
-            <button className="transition hover:-translate-y hover:scale-105 duration-200 ease-in-out border  border-black rounded-md h-fit w-fit border-2 px-8 py-1">
+            <button onClick={()=> navigate("/signup")} className="transition hover:-translate-y hover:scale-105 duration-200 ease-in-out border  border-black rounded-md h-fit w-fit border-2 px-8 py-1">
               SignUp
             </button>
           </div>
