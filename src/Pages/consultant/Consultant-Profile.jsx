@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
-import ArticleCompose from "../Components/ArticleComposeWrapper";
+import Header from "../../Components/Header";
+import Footer from "../../Components/Footer";
+import ProfileWrapper from "../../Components/ProfileWrapper";
 
 const profile = {
   name: "Dr.Shavidini Abhewardhana",
@@ -17,13 +17,13 @@ const profile = {
   skills: ["Stress Management ", "Lifestyle Modification "],
 };
 
-function NewArticle() {
+function ConsultantProfile() {
   return (
     <div>
       <div className="flex flex-col min-h-screen">
         <Header />
         <div className="px-20 mt-4 min-h-max">
-          <ArticleCompose
+          <ProfileWrapper
             name={profile.name}
             location={profile.location}
             specilization={profile.specilization}
@@ -38,4 +38,4 @@ function NewArticle() {
   );
 }
 
-export default NewArticle;
+export default ConsultantProfile;

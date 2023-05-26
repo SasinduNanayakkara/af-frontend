@@ -570,7 +570,7 @@ const contents = {
   entityMap: {},
 };
 
-function ArticleCompose({
+function ProfileWrapper({
   profilePic,
   name,
   specilization,
@@ -750,4 +750,4 @@ function ArticleCompose({
   );
 }
 
-export default ArticleCompose;
+export default ProfileWrapper;

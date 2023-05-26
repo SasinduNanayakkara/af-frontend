@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Footer from "../Components/Footer";
-import LandingImg from "../Assets/Landing-home.svg";
-import LogoLightPng from "../Assets/LogoLanding.svg";
-import image from "../Assets/Pages-Vectors/signUp.svg";
+import Footer from "../../Components/Footer";
+import LandingImg from "../../Assets/Landing-home.svg";
+import LogoLightPng from "../../Assets/LogoLanding.svg";
+import image from "../../Assets/Pages-Vectors/signUp.svg";
 import { Link } from "react-router-dom";
 import { set } from "lodash";
 import axios from "axios";
