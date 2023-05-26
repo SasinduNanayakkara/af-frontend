@@ -8,6 +8,7 @@ function ViewConsultantCard({
   onClick,
   specilization,
   status,
+  isSelected,
 }) {
   const handleClick = () => {
     onClick();
@@ -31,7 +32,7 @@ function ViewConsultantCard({
   }
 
   return (
-    <div className=" px-3 my-3" onClick={handleClick}>
+    <div className={`${ isSelected ? "bg-[#dfdede] rounded-lg pt-2 pb-2 pl-2 w-[26rem]" : ""} hover:bg-[#dfdede] cursor-pointer`} onClick={handleClick}>
       <div className="flex flex-row">
         <div className="w-2/3">
           <h3 className="font-bold">{name}</h3>
