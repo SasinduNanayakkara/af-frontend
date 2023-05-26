@@ -3,9 +3,21 @@ import LogoLightPng from '../Assets/LogoLight.png'
 import LogoDarkPng from '../Assets/LogoDark.png'
 import Profile from '../Assets/Profile.png'
 import {Button} from "@geist-ui/core"
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
-    const role = 'client';
+    const role = localStorage.getItem('role');
+    
+    const navigate = useNavigate();
+    const handleNavigate = () => {
+        if (role === '') {
+            navigate('/signin')
+        }
+        else {
+            localStorage.clear();
+            navigate('/')
+        }
+    }
   return (
     <div className={role === '' ? 'justify-between flex flex-row px-12' : 'justify-between flex flex-row px-12 bg-black text-white'}>
         <div className='w-1/4'>
@@ -41,7 +53,7 @@ function Header() {
         </div>
         <div className='flex-row flex'>
             <div className='mt-3'>
-                <Button auto type="secondary" className=''>{role === '' ? 'SignIn' : 'LogOut'}</Button>
+                <Button onClick={()=> handleNavigate()} auto type="secondary" className=''>{role === '' ? 'SignIn' : 'LogOut'}</Button>
             </div>
             <div className='mt-3 ml-5'>
                 {role === '' ? <Button type="secondary" ghost auto scale={0.9}>SignUp</Button> : null}
