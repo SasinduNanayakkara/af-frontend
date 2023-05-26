@@ -6,8 +6,10 @@ import locationimg from "../Assets/Pages-Vectors/Location.svg";
 import chatimg from "../Assets/Pages-Vectors/chatIcon.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 function ConsultantDetailsCard({
+  id,
   fname,
   lname,
   onClick,
@@ -20,6 +22,7 @@ function ConsultantDetailsCard({
   profilePic,
   skills
 }) {
+  const [consultantId, setConsultantId] = useState("");
     const [isLoaded, setIsLoaded] = useState(false);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setRejectModalOpen] = useState(false);
@@ -35,6 +38,8 @@ function ConsultantDetailsCard({
     
       const openRemoveModal = () => {
         setRemoveModalOpen(true);
+        // Store the ID of the consultant to be removed in state
+        setConsultantId(id);
       };
     
       const closeApproveModal = () => {
@@ -47,6 +52,7 @@ function ConsultantDetailsCard({
     
       const closeRemoveModal = () => {
         setRemoveModalOpen(false);
+        setConsultantId(null); // Reset the stored consultant ID
       };
 
   useEffect(() => {
@@ -75,6 +81,22 @@ function ConsultantDetailsCard({
     statusClass = "text-white";
     statusBackgroundClass = "bg-[#FD7373]";
   }
+
+  const handleRemove = (consultantId) => {
+    console.log(consultantId);
+    axios
+      .delete(`https://af-backend.azurewebsites.net/api/consultant/${consultantId}`)
+      .then((response) => {
+        // Handle successful deletion, such as updating the UI or showing a success message
+        console.log("Consultant removed successfully");
+        // Close the modal if needed
+        closeRemoveModal();
+      })
+      .catch((error) => {
+        // Handle error, such as displaying an error message
+        console.error("Error removing consultant:", error);
+      });
+  };
 
   return (
     <>
@@ -279,7 +301,7 @@ function ConsultantDetailsCard({
               <h2 className="flex justify-center font-bold text-3xl mb-4">
                 Are you sure?
               </h2>
-              <p className="font-normal ml-6">
+              <p className="font-normal flex justify-center">
                 Are you sure you want to remove this profile? This process
                 cannot be undone.
               </p>
@@ -287,9 +309,9 @@ function ConsultantDetailsCard({
                 <button
                   type="submit"
                   className="bg-[#FD7373] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mr-2"
-                  // onClick={confirmPass}
+                  onClick={() => handleRemove(id)}
                 >
-                  Remove
+                  Confirm
                 </button>
                 <button
                   type="submit"
