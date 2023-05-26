@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Footer from "../Components/Footer";
-import LandingImg from "../Assets/Landing-home.svg";
-import LogoLightPng from "../Assets/LogoLanding.svg";
-import image from "../Assets/Pages-Vectors/signIn.svg";
+import Footer from "../../Components/Footer";
+import LandingImg from "../../Assets/Landing-home.svg";
+import LogoLightPng from "../../Assets/LogoLanding.svg";
+import image from "../../Assets/Pages-Vectors/signIn.svg";
 import { Link } from "react-router-dom";
 
 const Header = () => {
