@@ -6,7 +6,7 @@ import image from "../../Assets/Pages-Vectors/signUp.svg";
 import { Link } from "react-router-dom";
 import { set } from "lodash";
 import axios from "axios";
-import { API_URL } from "../App";
+import { API_URL } from "../../App";
 
 const Header = () => {
   return (

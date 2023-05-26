@@ -4,7 +4,7 @@ import LandingImg from "../../Assets/Landing-home.svg";
 import LogoLightPng from "../../Assets/LogoLanding.svg";
 import image from "../../Assets/Pages-Vectors/signIn.svg";
 import { Link } from "react-router-dom";
-import { API_URL } from "../App";
+import { API_URL } from "../../App";
 import axios from "axios";
 
 const Header = () => {
