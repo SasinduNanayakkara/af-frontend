@@ -20,40 +20,44 @@ function ConsultantDetailsCard({
   email,
   phone,
   profilePic,
-  skills
+  skills,
 }) {
   const [consultantId, setConsultantId] = useState("");
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
-    const [isRejectModalOpen, setRejectModalOpen] = useState(false);
-    const [isRemoveModalOpen, setRemoveModalOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
+  const [isRejectModalOpen, setRejectModalOpen] = useState(false);
+  const [isRemoveModalOpen, setRemoveModalOpen] = useState(false);
 
-    const openApproveModal = () => {
-        setIsApproveModalOpen(true);
-      };
-    
-      const openRejectModal = () => {
-        setRejectModalOpen(true);
-      };
-    
-      const openRemoveModal = () => {
-        setRemoveModalOpen(true);
-        // Store the ID of the consultant to be removed in state
-        setConsultantId(id);
-      };
-    
-      const closeApproveModal = () => {
-        setIsApproveModalOpen(false);
-      };
-    
-      const closRejecteModal = () => {
-        setRejectModalOpen(false);
-      };
-    
-      const closeRemoveModal = () => {
-        setRemoveModalOpen(false);
-        setConsultantId(null); // Reset the stored consultant ID
-      };
+  const openApproveModal = () => {
+    setIsApproveModalOpen(true);
+    setConsultantId(id);
+  };
+
+  const openRejectModal = () => {
+    setRejectModalOpen(true);
+    setConsultantId(id);
+  };
+
+  const openRemoveModal = () => {
+    setRemoveModalOpen(true);
+    // Store the ID of the consultant to be removed in state
+    setConsultantId(id);
+  };
+
+  const closeApproveModal = () => {
+    setIsApproveModalOpen(false);
+    setConsultantId(null);
+  };
+
+  const closRejecteModal = () => {
+    setRejectModalOpen(false);
+    setConsultantId(null);
+  };
+
+  const closeRemoveModal = () => {
+    setRemoveModalOpen(false);
+    setConsultantId(null); // Reset the stored consultant ID
+  };
 
   useEffect(() => {
     // Simulating data loading delay with a setTimeout
@@ -82,10 +86,47 @@ function ConsultantDetailsCard({
     statusBackgroundClass = "bg-[#FD7373]";
   }
 
-  const handleRemove = (consultantId) => {
-    console.log(consultantId);
+  const handleApprove = (consultantId) => {
     axios
-      .delete(`https://af-backend.azurewebsites.net/api/consultant/${consultantId}`)
+      .put(
+        `https://af-backend.azurewebsites.net/api/consultant/status/${consultantId}`,
+        { status: "Approved" }
+      )
+      .then((response) => {
+        // Handle successful approval, such as updating the UI or showing a success message
+        console.log("Consultant approved successfully");
+        // Close the modal if needed
+        closeApproveModal();
+      })
+      .catch((error) => {
+        // Handle error, such as displaying an error message
+        console.error("Error approving consultant:", error);
+      });
+  };
+
+  const handleReject = (consultantId) => {
+    axios
+      .put(
+        `https://af-backend.azurewebsites.net/api/consultant/status/${consultantId}`,
+        { status: "Rejected" }
+      )
+      .then((response) => {
+        // Handle successful approval, such as updating the UI or showing a success message
+        console.log("Consultant rejected successfully");
+        // Close the modal if needed
+        closRejecteModal();
+      })
+      .catch((error) => {
+        // Handle error, such as displaying an error message
+        console.error("Error rejected consultant:", error);
+      });
+  };
+
+  const handleRemove = (consultantId) => {
+    axios
+      .delete(
+        `https://af-backend.azurewebsites.net/api/consultant/${consultantId}`
+      )
       .then((response) => {
         // Handle successful deletion, such as updating the UI or showing a success message
         console.log("Consultant removed successfully");
@@ -100,64 +141,64 @@ function ConsultantDetailsCard({
 
   return (
     <>
-    {isLoaded && (
-      <div className=" flex-col px-9 w-full">
-        <div className="flex flex-row">
-          <div className="w-1/7">
-            <img
-              src={profilePic ? profilePic : Profile}
-              alt="Profile"
-              className="w-32 h-32 mt-10"
-            />
-          </div>
+      {isLoaded && (
+        <div className=" flex-col px-9 w-full">
+          <div className="flex flex-row">
+            <div className="w-1/7">
+              <img
+                src={profilePic ? profilePic : Profile}
+                alt="Profile"
+                className="w-32 h-32 mt-10"
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <h2 className="font-bold mt-10 ml-8 text-xl mb-3">{fname}{" "}{lname}</h2>
-            <h6 className="text-[18px] ml-8 mb-3 text-[#858585] font-semibold">
-              {specilization}
-            </h6>
-            <div className="flex flex-row ml-8 mb-3">
-              <div>
-                <img src={locationimg} alt="Profile" className="w-6 h-6" />
+            <div className="flex flex-col">
+              <h2 className="font-bold mt-10 ml-8 text-xl mb-3">
+                {fname} {lname}
+              </h2>
+              <h6 className="text-[18px] ml-8 mb-3 text-[#858585] font-semibold">
+                {specilization}
+              </h6>
+              <div className="flex flex-row ml-8 mb-3">
+                <div>
+                  <img src={locationimg} alt="Profile" className="w-6 h-6" />
+                </div>
+                <div>
+                  <h6 className="text-[18px] text-[#858585] font-semibold ml-4">
+                    {location}
+                  </h6>
+                </div>
               </div>
-              <div>
-                <h6 className="text-[18px] text-[#858585] font-semibold ml-4">
-                  {location}
-                </h6>
+              <p
+                className={`font-medium ${statusClass} ${statusBackgroundClass} ml-8 mb-6 w-20 h-5 px-3 py-1 flex items-center justify-center rounded-2xl text-[0.85rem]`}
+              >
+                {status}
+              </p>
+            </div>
+            <div className="flex flex-col w-1/2 mt-10">
+              <div className="flex justify-end">
+                <img src={videoIcon} alt="video" className="w-10 h-10" />
+              </div>
+              <div className="flex justify-end">
+                <img src={chatimg} alt="chat" className="w-9 h-9" />
               </div>
             </div>
-            <p
-              className={`font-medium ${statusClass} ${statusBackgroundClass} ml-8 mb-6 w-20 h-5 px-3 py-1 flex items-center justify-center rounded-2xl text-[0.85rem]`}
-            >
-              {status}
+          </div>
+          <h5 className="text-[#000000] font-bold text-xl">{skills}</h5>
+          <p className="mt-6 text-justify mr-10">{aboutme}</p>
+          <div className="flex flex-row">
+            <p className="font-semibold text-formLable mt-6 mr-3 text-justify">
+              Contact Information:
             </p>
+            <a
+              href={`mailto:${email}`}
+              className="mt-6 text-justify text-[#1f2980]"
+            >
+              {email}
+            </a>
           </div>
-          <div className="flex flex-col w-1/2 mt-10">
-            <div className="flex justify-end">
-              <img src={videoIcon} alt="video" className="w-10 h-10" />
-            </div>
-            <div className="flex justify-end">
-              <img src={chatimg} alt="chat" className="w-9 h-9" />
-            </div>
-          </div>
-        </div>
-        <h5 className="text-[#000000] font-bold text-xl">
-          {skills}
-        </h5>
-        <p className="mt-6 text-justify mr-10">{aboutme}</p>
-        <div className="flex flex-row">
-          <p className="font-semibold text-formLable mt-6 mr-3 text-justify">
-            Contact Information:
-          </p>
-          <a
-            href={`mailto:${email}`}
-            className="mt-6 text-justify text-[#1f2980]"
-          >
-            {email}
-          </a>
-        </div>
-        <p className="mt-2 ml-[10rem] text-justify">{phone}</p>
-        <div className="w-28 flex justify-end mt-5 ml-[850px] mr-20">
+          <p className="mt-2 ml-[10rem] text-justify">{phone}</p>
+          <div className="w-28 flex justify-end mt-5 ml-[850px] mr-20">
             <button
               type="submit"
               className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mr-2"
@@ -199,9 +240,9 @@ function ConsultantDetailsCard({
                 <button
                   type="submit"
                   className="bg-[#000000] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mr-2"
-                  // onClick={confirmPass}
+                  onClick={() => handleApprove(id)}
                 >
-                  Approve
+                  Confirm
                 </button>
                 <button
                   type="submit"
@@ -254,9 +295,9 @@ function ConsultantDetailsCard({
                 <button
                   type="submit"
                   className="bg-[#FF1F00] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mr-2"
-                  // onClick={confirmPass}
+                  onClick={() => handleReject(id)}
                 >
-                  Reject
+                  Confirm
                 </button>
                 <button
                   type="submit"
@@ -323,8 +364,8 @@ function ConsultantDetailsCard({
               </div>
             </Modal>
           </div>
-      </div>
-    )}
+        </div>
+      )}
     </>
   );
 }

@@ -116,7 +116,7 @@ function Consultants() {
             >
               <option value="">All</option>
               <option value="Pending">Pending</option>
-              <option value="Approved">Aprroved</option>
+              <option value="Aprroved">Aprroved</option>
               <option value="Rejected">Rejected</option>
               <option value="Removed">Removed</option>
             </select>

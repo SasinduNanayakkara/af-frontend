@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import anouncementImange from "../Assets/Pages-Vectors/Admin-Announcement.svg";
-import Adminannouncement from "../Components/Admin-Announcement";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
-function AnnouncementDetailsCard({ description, title, date, time }) {
+function AnnouncementDetailsCard({id, description, title, date }) {
+  const [consultantId, setAnnouncementId] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDelModalOpen, setDelModalOpen] = useState(false);
@@ -23,6 +24,7 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
 
   const openDelModal = () => {
     setDelModalOpen(true);
+    setAnnouncementId(id);
   };
 
   const openEditModal = () => {
@@ -35,6 +37,7 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
 
   const closDeleModal = () => {
     setDelModalOpen(false);
+    setAnnouncementId(id);
   };
 
   const closeEditModal = () => {
@@ -61,9 +64,22 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
       return dateTime.toLocaleDateString(undefined, options);
     };
 
-  const confirmPass = () => {
-    
-  }
+    const handleDelete = (announcementId) => {
+      axios
+        .delete(
+          `https://af-backend.azurewebsites.net/api/announcement/${announcementId}`
+        )
+        .then((response) => {
+          // Handle successful deletion, such as updating the UI or showing a success message
+          console.log("Announcement removed successfully");
+          // Close the modal if needed
+          closDeleModal();
+        })
+        .catch((error) => {
+          // Handle error, such as displaying an error message
+          console.error("Error removing consultant:", error);
+        });
+    };
 
   useEffect(() => {
     // Simulating data loading delay with a setTimeout
@@ -230,7 +246,7 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
                 <button
                 type="submit"
                 className="bg-[#FD4F4F] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mr-2"
-                onClick={confirmPass}
+                onClick={() => handleDelete(id)}
               >
                 Confirm
               </button>
