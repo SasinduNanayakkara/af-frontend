@@ -19,12 +19,14 @@ function Announcements() {
     useState(null);
   const [selectedAnnouncementTime, setSelectedAnnouncementTime] =
     useState(null);
+    const [selectedAnnouncementIndex, setSelectedAnnouncementIndex] = useState(null); 
 
-  const handleAnnouncementClick = (description, title, date, time) => {
+  const handleAnnouncementClick = (description, title, date, time, index) => {
     setSelectedAnnouncementDescription(description);
     setSelectedAnnouncementDate(date);
     setSelectedAnnouncementTime(time);
     setSelectedAnnouncementTitle(title);
+    setSelectedAnnouncementIndex(index);
   };
 
   const [formValues, setFormValues] = useState({
@@ -163,24 +165,26 @@ function Announcements() {
       <div className="flex flex-row ">
         <div className="w-1/3">
           <div className="flex flex-col ml-8 overflow-y-scroll max-h-screen">
-            {announcementData.map((item, index) => (
-              <div>
-                <AnnouncementCard
-                  title={item.title}
-                  date={item.date}
-                  time={item.time}
-                  onClick={() => {
-                    handleAnnouncementClick(
-                      item.description,
-                      item.title,
-                      item.date,
-                      item.time
-                    );
-                  }}
-                />
-                <div className="h-[1px] bg-[#D9D9D9] my-1 mx-2"></div>
-              </div>
-            ))}
+          {announcementData.map((item, index) => (
+          <div key={index}>
+            <AnnouncementCard
+              title={item.title}
+              date={item.date}
+              time={item.time}
+              onClick={() => {
+                handleAnnouncementClick(
+                  item.description,
+                  item.title,
+                  item.date,
+                  item.time,
+                  index // Pass the index of the clicked announcement
+                );
+              }}
+              isSelected={index === selectedAnnouncementIndex} // Check if the current announcement is selected
+            />
+            <div className="h-[1px] bg-[#D9D9D9] my-1 mx-2"></div>
+          </div>
+        ))}
           </div>
           <div className="w-full flex justify-center mb-5 ml-3">
             <button
