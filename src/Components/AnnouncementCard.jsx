@@ -1,6 +1,6 @@
 import React from 'react'
 
-function AnnouncementCard({title, date, time, onClick, isSelected }) {
+function AnnouncementCard({title, date, onClick, isSelected }) {
     const handleClick = () => {
         onClick();
     }

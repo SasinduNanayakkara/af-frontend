@@ -19,15 +19,12 @@ function Announcements() {
     useState(null);
   const [selectedAnnouncementDate, setSelectedAnnouncementDate] =
     useState(null);
-  const [selectedAnnouncementTime, setSelectedAnnouncementTime] =
-    useState(null);
   const [selectedAnnouncementIndex, setSelectedAnnouncementIndex] =
     useState(null);
 
-  const handleAnnouncementClick = (description, title, date, time, index) => {
+  const handleAnnouncementClick = (description, title, date, index) => {
     setSelectedAnnouncementDescription(description);
     setSelectedAnnouncementDate(date);
-    setSelectedAnnouncementTime(time);
     setSelectedAnnouncementTitle(title);
     setSelectedAnnouncementIndex(index);
   };
@@ -99,6 +96,21 @@ function Announcements() {
       console.error(error);
     }
   };
+
+  // Function to format the date and time string
+  const formatDateTime = (dateTimeString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    const dateTime = new Date(dateTimeString);
+    return dateTime.toLocaleDateString(undefined, options);
+  };
+  
   const confirmPass = () => {};
 
   return (
@@ -111,7 +123,7 @@ function Announcements() {
               <div key={index}>
                 <AnnouncementCard
                   title={item.title}
-                  date={item.createdAt} // You can format the date using a library like Moment.js if needed
+                  date={formatDateTime(item.createdAt)} // You can format the date using a library like Moment.js if needed
                   onClick={() => {
                     handleAnnouncementClick(
                       item.content,
