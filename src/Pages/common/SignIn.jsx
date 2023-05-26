@@ -4,10 +4,13 @@ import LandingImg from "../../Assets/Landing-home.svg";
 import LogoLightPng from "../../Assets/LogoLanding.svg";
 import image from "../../Assets/Pages-Vectors/signIn.svg";
 import { Link } from "react-router-dom";
-import { API_URL } from "../App";
+import { API_URL } from "../../App";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="pt-8 px-8">
       <div className="justify-between flex flex-row px-12'">
@@ -30,12 +33,12 @@ const Header = () => {
         </div>
         <div className="flex-row flex">
           <div className="mr-4">
-            <button className="transition hover:-translate-y hover:scale-105 duration-200 ease-in-out border bg-black text-white border border-black rounded-md h-fit w-fit border-2 px-8 py-1">
+            <button onClick={()=> navigate("/signin")} className="transition hover:-translate-y hover:scale-105 duration-200 ease-in-out border bg-black text-white border border-black rounded-md h-fit w-fit border-2 px-8 py-1">
               SignIn
             </button>
           </div>
           <div className="mr-4">
-            <button className="transition hover:-translate-y hover:scale-105 duration-200 ease-in-out border  border-black rounded-md h-fit w-fit border-2 px-8 py-1">
+            <button onClick={()=> navigate("/signup")} className="transition hover:-translate-y hover:scale-105 duration-200 ease-in-out border  border-black rounded-md h-fit w-fit border-2 px-8 py-1">
               SignUp
             </button>
           </div>
@@ -50,7 +53,7 @@ const Card = () => {
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
 
-
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     try {
       const response = await axios.post(`${API_URL}/login`, {
@@ -60,8 +63,17 @@ const Card = () => {
       console.log(response);
       if (response.status === 200) {
         localStorage.setItem("token", response.data.data.access_token);
-        localStorage.setItem("user", response.data.data.user.isClient);
+        localStorage.setItem("user", Object.entries(response.data.data.user.isClient));
         localStorage.setItem("role", response.data.data.user.role);
+        console.log(localStorage.getItem("token"));
+        console.log(localStorage.getItem("user"));
+        console.log(localStorage.getItem("role"));
+        if (localStorage.getItem("role") === "client") {
+          navigate("/client/home");
+        }
+        if (localStorage.getItem("role") === "consultant") {
+          navigate("/consultant/home");
+        }
       }
     }
     catch (error) {

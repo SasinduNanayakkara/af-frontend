@@ -37,6 +37,8 @@ function PageRoutes() {
             <Route path='/consultant/profile' element={<ConsultantProfile/>} />
             <Route path='/consultant/chat' element={<ConsultantChat/>} />
 
+            {/* Client routes */}
+            <Route path='/client/home' element={<Home />} />
 
 
             <Route path='/viewconsultant' element={<ViewConsultant/>}/>
