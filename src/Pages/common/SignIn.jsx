@@ -63,10 +63,15 @@ const Card = () => {
       console.log(response);
       if (response.status === 200) {
         localStorage.setItem("token", response.data.data.access_token);
-        localStorage.setItem("user", Object.entries(response.data.data.user.isClient));
         localStorage.setItem("role", response.data.data.user.role);
+        if (localStorage.getItem("role") === "client") {
+          localStorage.setItem("user", Object.entries(response.data.data.user.isClient));
+        }
+        if (localStorage.getItem("role") === "consultant") {
+          localStorage.setItem("user", Object.entries(response.data.data.user.isConsultant));
+        }
         console.log(localStorage.getItem("token"));
-        console.log(localStorage.getItem("user"));
+        console.log("user data", localStorage.getItem("user"));
         console.log(localStorage.getItem("role"));
         if (localStorage.getItem("role") === "client") {
           navigate("/client/home");

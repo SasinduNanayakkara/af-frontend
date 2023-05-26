@@ -6,7 +6,8 @@ import {Button} from "@geist-ui/core"
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
-    const role = 'client';
+    const role = localStorage.getItem('role');
+    
     const navigate = useNavigate();
     const handleNavigate = () => {
         if (role === '') {
