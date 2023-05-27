@@ -51,6 +51,8 @@ const Header = () => {
 };
 
 const Card = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [userType, setUserType] = useState("Client");
@@ -89,6 +91,9 @@ const Card = () => {
             location,
             prefix,   
           })
+          if(response.status == 201){
+            navigate("/signin");
+          }
           console.log("response is: ", response);
         }
         catch (error) {
@@ -123,6 +128,9 @@ const Card = () => {
             prefix,
           });
           console.log("response is: ", response);
+          if(response.status == 201){
+            navigate("/signin");
+          }
         }
         catch (error) {
           console.log(error);
