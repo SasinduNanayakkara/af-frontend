@@ -74,13 +74,13 @@ const Card = () => {
         console.log("user data", localStorage.getItem("user"));
         console.log(localStorage.getItem("role"));
         if (localStorage.getItem("role") === "client") {
-          navigate("/client/home");
+          navigate("/home");
         }
         if (localStorage.getItem("role") === "consultant") {
-          navigate("/consultant/home");
+          navigate("/home");
         }
         if (localStorage.getItem("role") === "admin") {
-          navigate("/admin/home");
+          navigate("/home");
         }
 
         console.log("user ID", JSON.parse(localStorage.getItem("user"))._id);
