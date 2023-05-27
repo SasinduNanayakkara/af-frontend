@@ -4,18 +4,32 @@ import anouncementImange from "../Assets/Pages-Vectors/Admin-Announcement.svg";
 import Adminannouncement from "../Components/Admin-Announcement";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { API_URL } from "../App";
+import axios from "axios";
 
-function AnnouncementDetailsCard({ description, title, date, time }) {
+function AnnouncementDetailsCard({ description, title, date, time, target }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDelModalOpen, setDelModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
 
-  const [formValues, setFormValues] = useState({
-    title: "",
-    targetAudience: "",
-    content: "",
-  });
+  const [announcementTitle, setAnnouncementTitle] = useState("");
+  const [announcementTarget, setAnnouncementTarget] = useState("");
+  const [content, setContent] = useState("");
+
+ 
+
+
+
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.put(`${API_URL}/announcement`);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -26,6 +40,9 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
   };
 
   const openEditModal = () => {
+    setAnnouncementTarget(target);
+    setAnnouncementTitle(title);
+    setContent(description);
     setEditModalOpen(true);
   };
 
@@ -66,7 +83,6 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
   }
 
   useEffect(() => {
-    // Simulating data loading delay with a setTimeout
     const timeout = setTimeout(() => {
       setIsLoaded(true);
     }, 2000);
@@ -127,7 +143,7 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
                 <div className="flex justify-center">
                   <div className="w-44 h-[3px] bg-[#F5A624] mt-3 mb-3"></div>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form>
                   <div className="flex justify-center">
                     <div className="w-full">
                       <label
@@ -140,8 +156,8 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
                         type="text"
                         id="title"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
-                        value={formValues.title}
-                        //   onChange={handleInputChange}
+                        onChange={(e) => setAnnouncementTitle(e.target.value)}
+                        value={announcementTitle}
                       />
                     </div>
                   </div>{" "}
@@ -156,11 +172,12 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
                       <select
                         id="target"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
-                        value={formValues.targetAudience}
-                        //   onChange={handleInputChange}
+                        defaultValue={announcementTarget}
+                        onChange={(e) => setAnnouncementTarget(e.target.value)}
                       >
-                        <option value="Client">Client</option>
-                        <option value="Consultant">Consultant</option>
+                        <option value="client">Client</option>
+                        <option value="consultant">Consultant</option>
+                        <option value="all">Both</option>
                       </select>
                     </div>
                   </div>
@@ -176,15 +193,15 @@ function AnnouncementDetailsCard({ description, title, date, time }) {
                         type="text"
                         id="content"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
-                        value={formValues.content}
-                        //   onChange={handleInputChange}
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
                       />
                     </div>
                   </div>
                   <div className="flex justify-center">
                     <div className="w-full flex justify-center">
                       <button
-                        type="submit"
+                      conClick={() => handleUpdate()}
                         className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
                       >
                         Edit

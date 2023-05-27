@@ -10,16 +10,18 @@ function Announcements() {
     const [selectedAnnouncementTitle, setSelectedAnnouncementTitle] = useState(null);
     const [selectedAnnouncementDate, setSelectedAnnouncementDate] = useState(null);
     const [selectedAnnouncementTime, setSelectedAnnouncementTime] = useState(null);
+    const [selectedId, setSelectedId] = useState(null);
     const [announcementData, setAnnouncementData] = useState([]);
 
-  const handleAnnouncementClick = (description, title, date, time) => {
+  const handleAnnouncementClick = (description, title, date, time, _id) => {
     setSelectedAnnouncementDescription(description);
     setSelectedAnnouncementDate(date);
     setSelectedAnnouncementTime(time);
     setSelectedAnnouncementTitle(title);
+    setSelectedId(_id);
   };
 
-  const role = "consultant"
+  const role = localStorage.getItem("role");
 
   const fetchAnnouncements = async () => {
     try {
@@ -68,7 +70,7 @@ function Announcements() {
                   title={item.title}
                   date={formatDateTime(item.createdAt)}
                   time={item.time}
-                  onClick={() => {handleAnnouncementClick(item.content, item.title, item.date, item.time)}}
+                  onClick={() => {handleAnnouncementClick(item.content, item.title, item.date, item.time, item._id)}}
                 />
                 <div className="h-[1px] bg-[#D9D9D9] my-1 mx-2"></div>
               </div>
@@ -77,7 +79,7 @@ function Announcements() {
         </div>
         <div className="h-screen w-[1px] mt-5 bg-[#D9D9D9] ml-5"></div>
         <div className="w-2/3">
-          <AnnouncementDetailsCard description={selectedAnnouncementDescription} title={selectedAnnouncementTitle} date={selectedAnnouncementDate} time={selectedAnnouncementTime} />
+          <AnnouncementDetailsCard description={selectedAnnouncementDescription} title={selectedAnnouncementTitle} date={selectedAnnouncementDate} time={selectedAnnouncementTime} id={selectedId} />
         </div>
       </div>
       <Footer />

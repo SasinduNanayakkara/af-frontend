@@ -79,6 +79,9 @@ const Card = () => {
         if (localStorage.getItem("role") === "consultant") {
           navigate("/consultant/home");
         }
+        if (localStorage.getItem("role") === "admin") {
+          navigate("/admin/home");
+        }
       }
     }
     catch (error) {

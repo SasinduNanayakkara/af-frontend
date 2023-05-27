@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Header() {
     const role = localStorage.getItem('role');
-    
+
     const navigate = useNavigate();
     const handleNavigate = () => {
         if (role === '') {
@@ -30,25 +30,27 @@ function Header() {
         <div>
             {role === 'admin' ? 
             (<ul className='flex-row flex'>
-            <li className='mr-20 font-bold mt-5'>Dashboard</li>
-            <li className='mr-20 font-bold mt-5'>Articles</li>
-            <li className='mr-20 font-bold mt-5'>Announcement</li>
-            <li className='mr-20 font-bold mt-5'>Account</li>
+            <li onClick={() => navigate("/admin/home")} className='mr-20 font-bold mt-5'>Home</li>
+            <li onClick={() => navigate("/admin/home")} className='mr-20 font-bold mt-5'>Messages</li>
+            <li onClick={() => navigate("/admin/viewconsultant")} className='mr-20 font-bold mt-5'>Consultants</li>
+            <li onClick={() => navigate("/admin/announcement")} className='mr-20 font-bold mt-5'>Announcement</li>
+
         </ul>) : role === 'client' ? (<ul className='flex-row flex'>
-                <li className='mr-20 font-bold mt-5'>Home</li>
-                <li className='mr-20 font-bold mt-5'>Messages</li>
-                <li className='mr-20 font-bold mt-5'>Account</li>
+                <li onClick={() => navigate("/consultant/home")} className='mr-20 font-bold mt-5'>Home</li>
+                <li onClick={() => navigate("/client/home")} className='mr-20 font-bold mt-5'>Messages</li>
+                <li onClick={() => navigate("/client/announcement")} className='mr-20 font-bold mt-5'>Announcement</li>
             </ul>)
             : role === 'consultant' ? (<ul className='flex-row flex'>
-            <li className='mr-20 font-bold mt-5'>Home</li>
-            <li className='mr-20 font-bold mt-5'>Messages</li>
-            <li className='mr-20 font-bold mt-5'>Articles</li>
-            <li className='mr-20 font-bold mt-5'>Account</li>
+            <li onClick={() => navigate("/consultant/home")} className='mr-20 font-bold mt-5'>Home</li>
+            <li onClick={() => navigate("/consultant/home")} className='mr-20 font-bold mt-5'>Messages</li>
+            <li onClick={() => navigate("/consultant/articles")} className='mr-20 font-bold mt-5'>Articles</li>
+            <li onClick={() => navigate("/consultant/announcement")} className='mr-20 font-bold mt-5'>Announcement</li>
+            <li onClick={() => navigate("/consultant/profile")} className='mr-20 font-bold mt-5'>Account</li>
         </ul>) :
                 (<ul className='flex-row flex'>
-                <li className='mr-20 font-bold mt-5'>Articles</li>
-                <li className='mr-20 font-bold mt-5'>Consultants</li>
-                <li className='mr-20 font-bold mt-5'>FAQ</li>
+                <li onClick={() => navigate("/article")} className='mr-20 font-bold mt-5'>Articles</li>
+                <li onClick={() => navigate("/viewconsultant")} className='mr-20 font-bold mt-5'>Consultants</li>
+                <li onClick={() => navigate("/home")} className='mr-20 font-bold mt-5'>FAQ</li>
             </ul>) }
         </div>
         <div className='flex-row flex'>
