@@ -5,6 +5,7 @@ function AnnouncementDetailsCard({description, title, date, time, id}) {
   return (
     <>
     <div className=' flex-col px-9 w-full'>
+      <p>{id}</p>
         <div className='flex justify-center items-center mt-14'>
         <img src={anouncementImange} alt='announcement' />
         </div>

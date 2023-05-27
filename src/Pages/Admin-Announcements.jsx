@@ -38,8 +38,8 @@ function Announcements() {
     setSelectedAnnouncementTitle(title);
     setSelectedAnnouncementTarget(target);
     setSelectedAnnouncementIndex(index);
-    setSelected_id(announcementData[index]._id);
-    setSelectedAnnouncementTarget(announcementData[index].target);
+    setSelected_id(announcementData._id);
+    setSelectedAnnouncementTarget(announcementData.target);
   };
 
 
@@ -58,6 +58,7 @@ function Announcements() {
         "https://af-backend.azurewebsites.net/api/announcement/"
       );
       const data = response.data.data;
+      console.log(data)
       // Update the announcementData state with the fetched data
       setAnnouncementData(data);
     } catch (error) {
@@ -261,8 +262,8 @@ function Announcements() {
             title={selectedAnnouncementTitle}
             target={selectedAnnouncementTarget}
             date={selectedAnnouncementDate}
-            id={selected_id}
-            target={selectedAnnouncementTarget}
+            // id={selected_id}
+            // target={selectedAnnouncementTarget}
           />
         </div>
       </div>
