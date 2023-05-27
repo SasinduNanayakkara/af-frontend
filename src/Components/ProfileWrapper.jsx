@@ -11,7 +11,7 @@ import axios from "axios";
 
 
 function ProfileWrapper({
-    userId,
+  userId,
   profilePic,
   name,
   specilization,
