@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://afazcr.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_5a53f4cfd57c4fc6a21c76172d759784 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_de44d73954ac453381a9a2ab3507e639 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_56a15a932d444014b716f6f4e52db8a5 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_be82d2ea116242bf93f8bd5b8b9bdc2f }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: afazcr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5a53f4cfd57c4fc6a21c76172d759784 }}/af-frontend:${{ github.sha }}
+        tags: afazcr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_56a15a932d444014b716f6f4e52db8a5 }}/afazcr/af-frontend:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'af-frontend'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f4de4b4868ad430f87e12f5eb111d122 }}
-        images: 'afazcr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_5a53f4cfd57c4fc6a21c76172d759784 }}/af-frontend:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_6ffcd7c9738546798ff299eb3b8467cd }}
+        images: 'afazcr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_56a15a932d444014b716f6f4e52db8a5 }}/afazcr/af-frontend:${{ github.sha }}'
