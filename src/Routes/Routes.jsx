@@ -17,6 +17,7 @@ import ConsultantChat from '../Pages/consultant/Consultant-Chat'
 
 //article components
 import NewArticle from '../Pages/article/NewArticle'
+import ViewArticle from '../Pages/article/ViewArticle'
 
 import Articles from '../Pages/Articles'
 import ViewConsultant from '../Pages/ViewConsultant'
@@ -73,13 +74,16 @@ function PageRoutes() {
             <Route path='/admin/viewconsultant' element={<AdminPrivateRoute><ViewConsultant/></AdminPrivateRoute>} />
             <Route path='/admin/announcement' element={<AdminPrivateRoute><AdminAnnouncement /></AdminPrivateRoute>} />
 
+            {/* Article Routes */}
+            <Route path='/newarticle' element={<NewArticle/>}/>
+            <Route path='/article' element={<ViewArticle/>}/>
 
             <Route path='/viewconsultant' element={<ViewConsultant/>}/>
             <Route path='/announcement' element={<Announcements/>} />
             <Route path='/announcement-admin' element={<AdminAnnouncement/>}/>
             <Route path='/myarticles' element={<ConArticle/>}/>
             {/* <Route path='/article' element={<ClientArticle/>}/> */}
-            <Route path='/newarticle' element={<NewArticle/>}/>
+            
             <Route path='/home' element={<Home/>}/>
         </Routes>
     </Router>
