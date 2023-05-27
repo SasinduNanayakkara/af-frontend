@@ -22,6 +22,7 @@ function ConsultantDetailsCard({
   profilePic,
   skills,
 }) {
+  const [showRejectionNotification, setShowRejectionNotification] = useState(false);
   const [consultantId, setConsultantId] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
@@ -111,14 +112,12 @@ function ConsultantDetailsCard({
         { status: "Rejected" }
       )
       .then((response) => {
-        // Handle successful approval, such as updating the UI or showing a success message
         console.log("Consultant rejected successfully");
-        // Close the modal if needed
+        setShowRejectionNotification(true); // Show the rejection notification
         closRejecteModal();
       })
       .catch((error) => {
-        // Handle error, such as displaying an error message
-        console.error("Error rejected consultant:", error);
+        console.error("Error rejecting consultant:", error);
       });
   };
 
@@ -198,7 +197,7 @@ function ConsultantDetailsCard({
             </a>
           </div>
           <p className="mt-2 ml-[10rem] text-justify">{phone}</p>
-          <div className="w-28 flex justify-end mt-5 ml-[850px] mr-20">
+          <div className="w-28 flex justify-end mt-5 md:ml-[800px] md:mr-20">
             <button
               type="submit"
               className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mr-2"
@@ -364,6 +363,13 @@ function ConsultantDetailsCard({
               </div>
             </Modal>
           </div>
+        </div>
+      )}
+
+{showRejectionNotification && (
+        <div className="right-side-notification">
+          {/* Notification content */}
+          Rejection Successful!
         </div>
       )}
     </>
