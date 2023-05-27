@@ -7,6 +7,7 @@ import axios from "axios";
 
 function Articles() {
   const [articleData, setarticleData] = React.useState([]);
+  const [data, setData] = React.useState([]);
   // const articleData = [
   //   {
   //     author: "Sasindu Nanayakkara",
@@ -56,11 +57,11 @@ function Articles() {
       const response = await axios.get(
         "https://af-backend.azurewebsites.net/api/article/"
       );
+      setData(response.data.data);
       
       const filteredData = response.data.data.map((article) => {
 
         const newcontennt = article.content.blocks.map((block) =>  block.text);
-        console.log("newcontent",newcontennt);
         return {
           author: article.author.firstName+" "+article.author.lastName,
           designation: article.author.specialization,
@@ -70,9 +71,9 @@ function Articles() {
           rating: Math.floor(Math.random() * 5) + 1,
           profilePic:"" ,
           articlePic: "",
+          payload: article,
         }
       });
-      console.log(filteredData);
       setarticleData(filteredData);
       console.log(response.data.data);
     } catch (error) {
@@ -80,6 +81,7 @@ function Articles() {
       console.error(error);
     }
   };
+
 
   useEffect(() => {
     fetchArticles();
@@ -113,7 +115,7 @@ function Articles() {
                     description: article.description,
                     rating: article.rating,
                     articleImage: article.articlePic,
-                    article: article.article,
+                    payload: article.payload,
                   },
                 });
               }}
