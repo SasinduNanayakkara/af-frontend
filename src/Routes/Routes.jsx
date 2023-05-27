@@ -58,8 +58,20 @@ function PageRoutes() {
               <ConsultantChat/>
             </ConsultantPrivateRoute>} />
 
+            <Route path='/consultant/announcement' element={
+            <ConsultantPrivateRoute>
+              <Announcements/>
+            </ConsultantPrivateRoute>} />
+
             {/* Client routes */}
-            <Route path='/client/home' element={<Home />} />
+            <Route path='/client/home' element={<ClientPrivateRoute><Home /></ClientPrivateRoute>} />
+            <Route path='/client/announcement' element={<ClientPrivateRoute><Announcements /></ClientPrivateRoute>} />
+
+            {/* Admin routes */}
+            <Route path='/admin/home' element={<AdminPrivateRoute><Home /></AdminPrivateRoute>} />
+            <Route path='/admin/announcement' element={<AdminPrivateRoute><AdminAnnouncement /></AdminPrivateRoute>} />
+            <Route path='/admin/viewconsultant' element={<AdminPrivateRoute><ViewConsultant/></AdminPrivateRoute>} />
+            <Route path='/admin/announcement' element={<AdminPrivateRoute><AdminAnnouncement /></AdminPrivateRoute>} />
 
 
             <Route path='/viewconsultant' element={<ViewConsultant/>}/>
@@ -68,6 +80,7 @@ function PageRoutes() {
             <Route path='/myarticles' element={<ConArticle/>}/>
             {/* <Route path='/article' element={<ClientArticle/>}/> */}
             <Route path='/newarticle' element={<NewArticle/>}/>
+            <Route path='/home' element={<Home/>}/>
         </Routes>
     </Router>
   )

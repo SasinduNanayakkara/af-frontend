@@ -22,6 +22,7 @@ function Announcements() {
     useState(null);
   const [selectedAnnouncementIndex, setSelectedAnnouncementIndex] =
     useState(null);
+  const [selected_id, setSelected_id] = useState(null);
 
   const handleAnnouncementClick = (
     id,
@@ -37,7 +38,19 @@ function Announcements() {
     setSelectedAnnouncementTitle(title);
     setSelectedAnnouncementTarget(target);
     setSelectedAnnouncementIndex(index);
+    setSelected_id(announcementData[index]._id);
+    setSelectedAnnouncementTarget(announcementData[index].target);
   };
+
+
+
+  const [formValues, setFormValues] = useState({
+    title: "",
+    target: "client",
+    content: "",
+    //dateTime attribute with current date and time in epoch format
+    dateTime: Date.now(),
+  });
 
   const fetchAnnouncements = async () => {
     try {
@@ -52,14 +65,6 @@ function Announcements() {
       console.error(error);
     }
   };
-
-  const [formValues, setFormValues] = useState({
-    title: "",
-    target: "",
-    content: "",
-    date: "",
-  });
-
   useEffect(() => {
     fetchAnnouncements();
   }, []);
@@ -74,6 +79,7 @@ function Announcements() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formValues);
 
     // Add the createdAt field to the formValues object
     const newAnnouncement = {
@@ -190,13 +196,8 @@ function Announcements() {
                         type="text"
                         id="title"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
-                        value={formValues.title}
-                        onChange={(e) =>
-                          setFormValues({
-                            ...formValues,
-                            title: e.target.value,
-                          })
-                        }
+                        // value={formValues.title}
+                        onChange={(e) =>{setFormValues({...formValues, title: e.target.value})}}
                       />
                     </div>
                   </div>{" "}
@@ -211,16 +212,12 @@ function Announcements() {
                       <select
                         id="target"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
-                        value={formValues.target}
-                        onChange={(e) =>
-                          setFormValues({
-                            ...formValues,
-                            target: e.target.value,
-                          })
-                        }
+                        // value={formValues.targetAudience}
+                        onChange={(e)=>{setFormValues({...formValues, target: e.target.value})}}
                       >
-                        <option value="Client">Client</option>
-                        <option value="Consultant">Consultant</option>
+                        <option value="client">Client</option>
+                        <option value="consultant">Consultant</option>
+                        <option value="all">Both</option>
                       </select>
                     </div>
                   </div>
@@ -236,13 +233,8 @@ function Announcements() {
                         type="text"
                         id="content"
                         className="border border-formLable rounded px-2 py-2 mb-4 mt-1 w-full bg-white"
-                        value={formValues.content}
-                        onChange={(e) =>
-                          setFormValues({
-                            ...formValues,
-                            content: e.target.value,
-                          })
-                        }
+                        // value={formValues.content}
+                          onChange={(e)=>{setFormValues({...formValues, content: e.target.value})}}
                       />
                     </div>
                   </div>
@@ -269,6 +261,8 @@ function Announcements() {
             title={selectedAnnouncementTitle}
             target={selectedAnnouncementTarget}
             date={selectedAnnouncementDate}
+            id={selected_id}
+            target={selectedAnnouncementTarget}
           />
         </div>
       </div>

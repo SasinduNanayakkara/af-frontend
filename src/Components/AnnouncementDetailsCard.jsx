@@ -1,7 +1,7 @@
 import React from 'react'
 import anouncementImange from "../Assets/AnnouncementImage.svg"
 
-function AnnouncementDetailsCard({description, title, date, time}) {
+function AnnouncementDetailsCard({description, title, date, time, id}) {
   return (
     <>
     <div className=' flex-col px-9 w-full'>
