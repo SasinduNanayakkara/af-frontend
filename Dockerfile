@@ -1,14 +1,18 @@
-FROM node:14-alpine
+FROM node:14
 
+RUN mkdir -p /app
 WORKDIR /app
 
-COPY package.json ./
+RUN npm install -g serve
 
+COPY package*.json ./
+RUN npm install
 
-RUN npm install -f
+ENV NODE_OPTIONS=--max_old_space_size=8192
 
-COPY . .
+COPY . /app
+RUN npm run build
 
+ENV HOST 0.0.0.0
 EXPOSE 3000
-
-CMD ["npm", "start"]
+CMD serve -s build -l 3000
