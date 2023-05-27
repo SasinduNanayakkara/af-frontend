@@ -15,6 +15,8 @@ import ConsultantArticles from '../Pages/consultant/Consultant-Article'
 import ConsultantProfile from '../Pages/consultant/Consultant-Profile'
 import ConsultantChat from '../Pages/consultant/Consultant-Chat'
 
+//article components
+import NewArticle from '../Pages/article/NewArticle'
 
 import Articles from '../Pages/Articles'
 import ViewConsultant from '../Pages/ViewConsultant'
@@ -22,7 +24,7 @@ import Announcements from '../Pages/Announcements'
 import AdminAnnouncement from '../Pages/Admin-Announcements'
 import ConArticle from '../Pages/Con-Article'
 import ClientArticle from '../Pages/ClientArticle'
-import NewArticle from '../Pages/NewArticle'
+
 
 function PageRoutes() {
   return (
@@ -64,7 +66,7 @@ function PageRoutes() {
             <Route path='/announcement' element={<Announcements/>} />
             <Route path='/announcement-admin' element={<AdminAnnouncement/>}/>
             <Route path='/myarticles' element={<ConArticle/>}/>
-            <Route path='/article' element={<ClientArticle/>}/>
+            {/* <Route path='/article' element={<ClientArticle/>}/> */}
             <Route path='/newarticle' element={<NewArticle/>}/>
         </Routes>
     </Router>
