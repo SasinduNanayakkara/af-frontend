@@ -82,6 +82,9 @@ const Card = () => {
         if (localStorage.getItem("role") === "admin") {
           navigate("/admin/home");
         }
+
+        console.log("user ID", JSON.parse(localStorage.getItem("user"))._id);
+        localStorage.setItem("userData", JSON.parse(localStorage.getItem("user")));
       }
     }
     catch (error) {
