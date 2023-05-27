@@ -38,8 +38,8 @@ function Announcements() {
     setSelectedAnnouncementTitle(title);
     setSelectedAnnouncementTarget(target);
     setSelectedAnnouncementIndex(index);
-    setSelected_id(announcementData[index]._id);
-    setSelectedAnnouncementTarget(announcementData[index].target);
+    setSelected_id(announcementData._id);
+    setSelectedAnnouncementTarget(announcementData.target);
   };
 
 
@@ -261,8 +261,6 @@ function Announcements() {
             title={selectedAnnouncementTitle}
             target={selectedAnnouncementTarget}
             date={selectedAnnouncementDate}
-            id={selected_id}
-            target={selectedAnnouncementTarget}
           />
         </div>
       </div>

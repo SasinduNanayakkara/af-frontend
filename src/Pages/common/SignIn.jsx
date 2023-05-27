@@ -64,23 +64,24 @@ const Card = () => {
       if (response.status === 200) {
         localStorage.setItem("token", response.data.data.access_token);
         localStorage.setItem("role", response.data.data.user.role);
-        if (localStorage.getItem("role") === "client") {
+        if (localStorage.getItem("role") == "client") {
           localStorage.setItem("user", JSON.stringify(response.data.data.user.isClient));
         }
-        if (localStorage.getItem("role") === "consultant") {
+        if (localStorage.getItem("role") == "consultant") {
           localStorage.setItem("user", JSON.stringify(response.data.data.user.isConsultant));
         }
         console.log(localStorage.getItem("token"));
         console.log("user data", localStorage.getItem("user"));
         console.log(localStorage.getItem("role"));
-        if (localStorage.getItem("role") === "client") {
-          navigate("/client/home");
+        if (localStorage.getItem("role") == "client") {
+          console.log("hfjsd");
+          navigate("/home");
         }
-        if (localStorage.getItem("role") === "consultant") {
-          navigate("/consultant/home");
+        if (localStorage.getItem("role") == "consultant") {
+          navigate("/home");
         }
         if (localStorage.getItem("role") === "admin") {
-          navigate("/admin/home");
+          navigate("/home");
         }
 
         console.log("user ID", JSON.parse(localStorage.getItem("user"))._id);
