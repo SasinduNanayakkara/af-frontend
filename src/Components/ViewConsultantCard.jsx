@@ -1,10 +1,9 @@
-import { render } from "@testing-library/react";
 import React from "react";
 
 function ViewConsultantCard({
-  name,
+  fname,
+  lname,
   date,
-  time,
   onClick,
   specilization,
   status,
@@ -35,10 +34,10 @@ function ViewConsultantCard({
     <div className={`${ isSelected ? "bg-[#dfdede] rounded-lg pt-2 pb-2 pl-2 w-[26rem]" : ""} hover:bg-[#dfdede] cursor-pointer`} onClick={handleClick}>
       <div className="flex flex-row">
         <div className="w-2/3">
-          <h3 className="font-bold">{name}</h3>
+          <h3 className="font-bold">{fname}{" "}{lname}</h3>
           <h3 className="font-bold text-[#8B8B8B]">{specilization}</h3>
           <h5 className="text-[#8B8B8B]">
-            {date} | {time}
+            {date}
           </h5>
         </div>
         <div className="w-1/3 flex justify-center">

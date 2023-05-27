@@ -11,23 +11,32 @@ import axios from "axios";
 function Announcements() {
   const [announcementData, setAnnouncementData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDelModalOpen, setDelModalOpen] = useState(false);
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [selectedAnnouncementid, setSelectedAnnouncementId] = useState(null);
   const [selectedAnnouncementDescription, setSelectedAnnouncementDescription] =
     useState(null);
   const [selectedAnnouncementTitle, setSelectedAnnouncementTitle] =
     useState(null);
   const [selectedAnnouncementDate, setSelectedAnnouncementDate] =
     useState(null);
+  const [selectedAnnouncementTarget, setSelectedAnnouncementTarget] =
+    useState(null);
   const [selectedAnnouncementIndex, setSelectedAnnouncementIndex] =
     useState(null);
   const [selected_id, setSelected_id] = useState(null);
-  const [selectedAnnouncementTarget, setSelectedAnnouncementTarget] =useState(null);
 
-  const handleAnnouncementClick = (description, title, date, index) => {
+  const handleAnnouncementClick = (
+    id,
+    description,
+    title,
+    date,
+    target,
+    index
+  ) => {
+    setSelectedAnnouncementId(id);
     setSelectedAnnouncementDescription(description);
     setSelectedAnnouncementDate(date);
     setSelectedAnnouncementTitle(title);
+    setSelectedAnnouncementTarget(target);
     setSelectedAnnouncementIndex(index);
     setSelected_id(announcementData[index]._id);
     setSelectedAnnouncementTarget(announcementData[index].target);
@@ -64,36 +73,26 @@ function Announcements() {
     setIsModalOpen(true);
   };
 
-  const openDelModal = () => {
-    setDelModalOpen(true);
-  };
-
-  const openEditModal = () => {
-    setEditModalOpen(true);
-  };
-
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const closDeleModal = () => {
-    setDelModalOpen(false);
-  };
-
-  const closeEditModal = () => {
-    setEditModalOpen(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formValues);
 
+    // Add the createdAt field to the formValues object
+    const newAnnouncement = {
+      ...formValues,
+      createdAt: new Date().toISOString(), // Set createdAt to the current date and time
+    };
+
     try {
       const response = await axios.post(
         "https://af-backend.azurewebsites.net/api/announcement/",
-        formValues
+        newAnnouncement
       );
-      // Handle successful submission, e.g., show a success message
+      // Handle successful submission
       console.log("Announcement submitted successfully");
       // Refresh the announcement data
       fetchAnnouncements();
@@ -118,8 +117,6 @@ function Announcements() {
     const dateTime = new Date(dateTimeString);
     return dateTime.toLocaleDateString(undefined, options);
   };
-  
-  const confirmPass = () => {};
 
   return (
     <div className="">
@@ -130,10 +127,12 @@ function Announcements() {
             {announcementData.map((item, index) => (
               <div key={index}>
                 <AnnouncementCard
+                  id={item._id}
                   title={item.title}
-                  date={formatDateTime(item.createdAt)} // You can format the date using a library like Moment.js if needed
+                  date={formatDateTime(item.createdAt)}
                   onClick={() => {
                     handleAnnouncementClick(
+                      item._id,
                       item.content,
                       item.title,
                       item.createdAt,
@@ -257,8 +256,10 @@ function Announcements() {
         <div className="h-screen w-[1px] mt-5 bg-[#D9D9D9] ml-5"></div>
         <div className="w-2/3">
           <Adminannouncement
+            id={selectedAnnouncementid}
             description={selectedAnnouncementDescription}
             title={selectedAnnouncementTitle}
+            target={selectedAnnouncementTarget}
             date={selectedAnnouncementDate}
             id={selected_id}
             target={selectedAnnouncementTarget}
