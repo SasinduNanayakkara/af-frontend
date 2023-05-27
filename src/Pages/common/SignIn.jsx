@@ -64,10 +64,10 @@ const Card = () => {
       if (response.status === 200) {
         localStorage.setItem("token", response.data.data.access_token);
         localStorage.setItem("role", response.data.data.user.role);
-        if (localStorage.getItem("role") === "client") {
+        if (localStorage.getItem("role") == "client") {
           localStorage.setItem("user", JSON.stringify(response.data.data.user.isClient));
         }
-        if (localStorage.getItem("role") === "consultant") {
+        if (localStorage.getItem("role") == "consultant") {
           localStorage.setItem("user", JSON.stringify(response.data.data.user.isConsultant));
         }
         console.log(localStorage.getItem("token"));
