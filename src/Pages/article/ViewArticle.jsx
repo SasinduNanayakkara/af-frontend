@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
-import ArticleCompose from "../Components/ArticleComposeWrapper";
+import Header from "../../Components/Header";
+import Footer from "../../Components/Footer";
+import ArticleCompose from "../../Components/ArticleComposeWrapper";
 
 const profile = {
   name: "Dr.Shavidini Abhewardhana",
@@ -17,7 +17,7 @@ const profile = {
   skills: ["Stress Management ", "Lifestyle Modification "],
 };
 
-function NewArticle() {
+function ViewArticle() {
   return (
     <div>
       <div className="flex flex-col min-h-screen">
@@ -27,6 +27,7 @@ function NewArticle() {
             name={profile.name}
             location={profile.location}
             specilization={profile.specilization}
+            readOnly={true}
           />
         </div>
         <div className="mb-0"></div>
@@ -38,4 +39,4 @@ function NewArticle() {
   );
 }
 
-export default NewArticle;
+export default ViewArticle;
